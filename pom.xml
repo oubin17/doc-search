@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.7.17</version> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>com.odk</groupId>
+    <artifactId>doc-search</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>doc-search</name>
+    <description>doc-search</description>
+    <properties>
+        <skipTests>true</skipTests>
+        <java.version>8</java.version>
+        <spring-boot-version>2.7.17</spring-boot-version>
+        <odk-template-rpc>0.0.1-SNAPSHOT</odk-template-rpc>
+        <odk-template-web>0.0.1-SNAPSHOT</odk-template-web>
+        <odk-template-api>0.0.1-SNAPSHOT</odk-template-api>
+        <odk-template-service>0.0.1-SNAPSHOT</odk-template-service>
+        <odk-template-manager>0.0.1-SNAPSHOT</odk-template-manager>
+        <odk-template-domain>0.0.1-SNAPSHOT</odk-template-domain>
+        <odk-template-infrastructure>0.0.1-SNAPSHOT</odk-template-infrastructure>
+        <odk-template-bootstrap>0.0.1-SNAPSHOT</odk-template-bootstrap>
+        <odk-template-util>0.0.1-SNAPSHOT</odk-template-util>
+
+        <odk-common-util-base>1.0-SNAPSHOT</odk-common-util-base>
+
+        <lombok>1.18.24</lombok>
+        <guava>32.1.2-jre</guava>
+
+        <database-spring-boot-starter>0.0.1-SNAPSHOT</database-spring-boot-starter>
+        <elasticsearch-spring-boot-starter>0.0.1-SNAPSHOT</elasticsearch-spring-boot-starter>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+
+<!--            模块包-->
+            <dependency>
+                <groupId>com.odk</groupId>
+                <artifactId>doc-search-rpc</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.odk</groupId>
+                <artifactId>doc-search-web</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.odk</groupId>
+                <artifactId>doc-search-api</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.odk</groupId>
+                <artifactId>doc-search-service</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.odk</groupId>
+                <artifactId>doc-search-manager</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.odk</groupId>
+                <artifactId>doc-search-domain</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.odk</groupId>
+                <artifactId>doc-search-infrastructure</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.odk</groupId>
+                <artifactId>doc-search-util</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            
+            <!--            系统工具包-->
+            <dependency>
+                <groupId>com.odk</groupId>
+                <artifactId>odk-common-util-base</artifactId>
+                <version>${odk-common-util-base}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.odk</groupId>
+                <artifactId>database-spring-boot-starter</artifactId>
+                <version>${database-spring-boot-starter}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.odk</groupId>
+                <artifactId>elasticsearch-spring-boot-starter</artifactId>
+                <version>${elasticsearch-spring-boot-starter}</version>
+            </dependency>
+
+
+
+            <!--            开发工具包-->
+            <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava}</version>
+            </dependency>
+
+        </dependencies>
+
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- https://blog.csdn.net/sgx1825192/article/details/132656681 -->
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>2.0</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <image>
+                        <builder>paketobuildpacks/builder-jammy-base:latest</builder>
+                    </image>
+<!--      Unable to find main class              https://blog.csdn.net/kaichekaihanma/article/details/123252611?spm=1001.2101.3001.6650.2&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7ERate-2-123252611-blog-133126904.235%5Ev38%5Epc_relevant_sort&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7ERate-2-123252611-blog-133126904.235%5Ev38%5Epc_relevant_sort&utm_relevant_index=3-->
+                    <layout>NONE</layout>
+<!--      聚合项目程打包，提示包不存在              https://blog.csdn.net/weixin_44671867/article/details/130931516-->
+                    <classifier>exec</classifier>
+                </configuration>
+            </plugin>
+
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-archetype-plugin</artifactId>
+                <version>3.2.1</version>
+            </plugin>
+
+
+        </plugins>
+    </build>
+
+<modules>  <module>app/web</module>
+    <module>app/rpc</module>
+    <module>app/api</module>
+    <module>core/service</module>
+    <module>core/manager</module>
+    <module>common/domain</module>
+    <module>common/infrastructure</module>
+    <module>common/util</module>
+    <module>bootstrap</module>
+  </modules>
+</project>
