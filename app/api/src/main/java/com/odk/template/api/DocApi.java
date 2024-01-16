@@ -2,6 +2,7 @@ package com.odk.template.api;
 
 import com.odk.base.vo.response.ServiceResponse;
 import com.odk.template.util.request.DocUploadRequest;
+import com.odk.template.util.response.DocUploadResponse;
 
 /**
  * DocApi
@@ -18,5 +19,5 @@ public interface DocApi {
      * @param docUploadRequest
      * @return
      */
-    ServiceResponse<Boolean> uploadDoc(DocUploadRequest docUploadRequest);
+    ServiceResponse<DocUploadResponse> uploadDoc(DocUploadRequest docUploadRequest);
 }

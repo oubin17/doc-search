@@ -8,7 +8,9 @@ package com.odk.template.util.enums;
  * @author: oubin on 2023/11/11
  */
 public enum BizScene {
-    HELLO_WORLD("HELLO_WORLD", "HELLO_WORLD")
+    HELLO_WORLD("HELLO_WORLD", "HELLO_WORLD"),
+
+    DOC_UPLOAD("DOC_UPLOAD", "文件上传")
 
     ;
 

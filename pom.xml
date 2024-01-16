@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -38,7 +39,7 @@
     <dependencyManagement>
         <dependencies>
 
-<!--            模块包-->
+            <!--            模块包-->
             <dependency>
                 <groupId>com.odk</groupId>
                 <artifactId>doc-search-rpc</artifactId>
@@ -86,7 +87,7 @@
                 <artifactId>doc-search-util</artifactId>
                 <version>1.0-SNAPSHOT</version>
             </dependency>
-            
+
             <!--            系统工具包-->
             <dependency>
                 <groupId>com.odk</groupId>
@@ -105,7 +106,6 @@
                 <artifactId>elasticsearch-spring-boot-starter</artifactId>
                 <version>${elasticsearch-spring-boot-starter}</version>
             </dependency>
-
 
 
             <!--            开发工具包-->
@@ -152,9 +152,9 @@
                     <image>
                         <builder>paketobuildpacks/builder-jammy-base:latest</builder>
                     </image>
-<!--      Unable to find main class              https://blog.csdn.net/kaichekaihanma/article/details/123252611?spm=1001.2101.3001.6650.2&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7ERate-2-123252611-blog-133126904.235%5Ev38%5Epc_relevant_sort&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7ERate-2-123252611-blog-133126904.235%5Ev38%5Epc_relevant_sort&utm_relevant_index=3-->
+                    <!--      Unable to find main class              https://blog.csdn.net/kaichekaihanma/article/details/123252611?spm=1001.2101.3001.6650.2&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7ERate-2-123252611-blog-133126904.235%5Ev38%5Epc_relevant_sort&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7ERate-2-123252611-blog-133126904.235%5Ev38%5Epc_relevant_sort&utm_relevant_index=3-->
                     <layout>NONE</layout>
-<!--      聚合项目程打包，提示包不存在              https://blog.csdn.net/weixin_44671867/article/details/130931516-->
+                    <!--      聚合项目程打包，提示包不存在              https://blog.csdn.net/weixin_44671867/article/details/130931516-->
                     <classifier>exec</classifier>
                 </configuration>
             </plugin>
@@ -170,14 +170,15 @@
         </plugins>
     </build>
 
-<modules>  <module>app/web</module>
-    <module>app/rpc</module>
-    <module>app/api</module>
-    <module>core/service</module>
-    <module>core/manager</module>
-    <module>common/domain</module>
-    <module>common/infrastructure</module>
-    <module>common/util</module>
-    <module>bootstrap</module>
-  </modules>
+    <modules>
+        <module>app/web</module>
+        <module>app/rpc</module>
+        <module>app/api</module>
+        <module>core/service</module>
+        <module>core/manager</module>
+        <module>common/domain</module>
+        <module>common/infrastructure</module>
+        <module>common/util</module>
+        <module>bootstrap</module>
+    </modules>
 </project>
