@@ -18,6 +18,11 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+<!--        <dependency>-->
+<!--            <groupId>com.odk</groupId>-->
+<!--            <artifactId>elasticsearch-spring-boot-starter</artifactId>-->
+<!--        </dependency>-->
+
         <dependency>
             <groupId>com.odk</groupId>
             <artifactId>doc-search-api</artifactId>

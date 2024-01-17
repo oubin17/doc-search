@@ -2,6 +2,7 @@ package com.odk.odktemplateservice.impl;
 
 import com.odk.base.exception.BizErrorCode;
 import com.odk.base.exception.BizException;
+import com.odk.odktemplatemanager.EsManager;
 import com.odk.odktemplatemanager.util.FileUtil;
 import com.odk.odktemplateservice.DocService;
 import com.odk.template.domain.domain.Doc;
@@ -34,6 +35,8 @@ public class DocServiceImpl implements DocService {
 
     private DocRepository docRepository;
 
+    private EsManager esManager;
+
     @Override
     public String saveDoc(DocSaveDto docSaveDto) {
         String docId = UUID.randomUUID().toString();
@@ -45,6 +48,7 @@ public class DocServiceImpl implements DocService {
             logger.info("文件内容 {}", docContents);
             if (StringUtils.isNotEmpty(docContents)) {
                 //3.内容写到ES
+                esManager.writeToEs(docId, docSaveDto.getDocName(), docContents);
             }
         } catch (IOException e) {
             logger.error("文件上传失败，文件名：{}", docSaveDto.getDocName());
@@ -64,5 +68,10 @@ public class DocServiceImpl implements DocService {
     @Autowired
     public void setDocRepository(DocRepository docRepository) {
         this.docRepository = docRepository;
+    }
+
+    @Autowired
+    public void setEsManager(EsManager esManager) {
+        this.esManager = esManager;
     }
 }
