@@ -1,6 +1,5 @@
 package com.odk.template.api.template;
 
-import com.odk.base.dto.DTO;
 import com.odk.base.exception.AssertUtil;
 import com.odk.base.exception.BizErrorCode;
 import com.odk.base.exception.BizException;
@@ -46,7 +45,7 @@ public class AbstractApiImpl extends AbstractApi {
      * @param <T>
      * @param <R>
      */
-    protected <T extends DTO, R> ServiceResponse<R> bizProcess(BizScene bizScene, BaseRequest request, Class<R> resultClazz, ApiCallBack<T, R> callBack) {
+    protected <T, R> ServiceResponse<R> bizProcess(BizScene bizScene, BaseRequest request, Class<R> resultClazz, ApiCallBack<T, R> callBack) {
         long startTime = System.currentTimeMillis();
         ServiceResponse<R> response = null;
         try {
@@ -60,7 +59,7 @@ public class AbstractApiImpl extends AbstractApi {
             callBack.beforeProcess(request);
             //5.对象转换：request -> dto
             Object args = callBack.convert(request);
-            ServiceResponse<T> apiResponse = callBack.doProcess(args);
+            T apiResponse = callBack.doProcess(args);
             //6.出参转换：dto -> response
             response = callBack.assembleResult(apiResponse, resultClazz);
         } catch (BizException exception) {
@@ -87,7 +86,7 @@ public class AbstractApiImpl extends AbstractApi {
          * @param request
          */
         protected void checkParams(BaseRequest request) {
-
+            AssertUtil.notNull(request, BizErrorCode.PARAM_ILLEGAL);
         }
 
         /**
@@ -113,7 +112,7 @@ public class AbstractApiImpl extends AbstractApi {
          * @param args
          * @return
          */
-        protected abstract ServiceResponse<T> doProcess(Object args);
+        protected abstract T doProcess(Object args);
 
         /**
          * 将服务层返回的对象转成controller层返回的对象:DTO -> VO
@@ -123,9 +122,9 @@ public class AbstractApiImpl extends AbstractApi {
          * @return
          * @throws Throwable
          */
-        protected ServiceResponse<R> assembleResult(ServiceResponse<T> apiResult, Class<R> resultClazz) throws Throwable {
+        protected ServiceResponse<R> assembleResult(T apiResult, Class<R> resultClazz) throws Throwable {
             R response = resultClazz.newInstance();
-            ServiceResponse<R> serviceResponse = ServiceResponse.valueOf(apiResult);
+            ServiceResponse<R> serviceResponse = ServiceResponse.valueOfSuccess();
             serviceResponse.setData(response);
             return serviceResponse;
         }
@@ -189,7 +188,7 @@ public class AbstractApiImpl extends AbstractApi {
         try {
             return ServiceResponse.valueOfError(
                     Objects.requireNonNull(errorCode).getErrorType(),
-                    Objects.requireNonNull(errorCode).getCode(),
+                    Objects.requireNonNull(errorCode).getErrorCode(),
                     errorMsg == null ? errorCode.getErrorContext() : errorMsg);
         } catch (Throwable t) {
             LOGGER.error("new system exception occurred, error message: {}", t.getMessage());

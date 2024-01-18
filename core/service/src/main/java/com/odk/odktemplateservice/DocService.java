@@ -1,7 +1,7 @@
 package com.odk.odktemplateservice;
 
-import com.odk.template.util.dto.DocSaveDto;
-import com.odk.template.util.dto.DocSearchDto;
+import com.odk.template.util.dto.DocSaveDTO;
+import com.odk.template.util.dto.DocSearchDTO;
 import com.odk.template.util.response.DocVO;
 
 import java.util.List;
@@ -18,7 +18,7 @@ public interface DocService {
     /**
      * 保存文件
      */
-    String saveDoc(DocSaveDto docSaveDto);
+    String saveDoc(DocSaveDTO docSaveDto);
 
     /**
      * 文件搜索
@@ -26,5 +26,5 @@ public interface DocService {
      * @param searchDto
      * @return
      */
-    List<DocVO> searchDoc(DocSearchDto searchDto);
+    List<DocVO> searchDoc(DocSearchDTO searchDto);
 }

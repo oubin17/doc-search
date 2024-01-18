@@ -4,7 +4,6 @@ import com.odk.base.vo.response.ServiceResponse;
 import com.odk.template.util.request.DocSearchRequest;
 import com.odk.template.util.request.DocUploadRequest;
 import com.odk.template.util.response.DocSearchResponse;
-import com.odk.template.util.response.DocUploadResponse;
 
 /**
  * DocApi
@@ -21,7 +20,7 @@ public interface DocApi {
      * @param docUploadRequest
      * @return
      */
-    ServiceResponse<DocUploadResponse> uploadDoc(DocUploadRequest docUploadRequest);
+    ServiceResponse<String> uploadDoc(DocUploadRequest docUploadRequest);
 
     /**
      * 文件搜索

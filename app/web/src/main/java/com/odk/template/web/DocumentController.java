@@ -5,7 +5,6 @@ import com.odk.template.api.DocApi;
 import com.odk.template.util.request.DocSearchRequest;
 import com.odk.template.util.request.DocUploadRequest;
 import com.odk.template.util.response.DocSearchResponse;
-import com.odk.template.util.response.DocUploadResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,7 +25,7 @@ public class DocumentController {
     private DocApi docApi;
 
     @PostMapping("/upload")
-    public ServiceResponse<DocUploadResponse> uploadDocument(MultipartFile file) throws IOException {
+    public ServiceResponse<String> uploadDocument(MultipartFile file) throws IOException {
         DocUploadRequest docUploadRequest = new DocUploadRequest();
         docUploadRequest.setFileInputStream(file.getInputStream());
         docUploadRequest.setName(file.getOriginalFilename());

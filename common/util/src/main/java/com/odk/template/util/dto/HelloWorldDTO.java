@@ -13,7 +13,7 @@ import lombok.EqualsAndHashCode;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class HelloWorldDto extends DTO {
+public class HelloWorldDTO extends DTO {
 
     private String name;
 }

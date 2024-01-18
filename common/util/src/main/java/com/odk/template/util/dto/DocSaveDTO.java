@@ -15,7 +15,7 @@ import java.io.InputStream;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class DocSaveDto extends DTO {
+public class DocSaveDTO extends DTO {
 
     /**
      * 文件id

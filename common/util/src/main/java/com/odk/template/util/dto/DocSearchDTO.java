@@ -16,7 +16,7 @@ import java.util.List;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class DocSearchDto extends DTO {
+public class DocSearchDTO extends DTO {
 
     private String keyword;
 

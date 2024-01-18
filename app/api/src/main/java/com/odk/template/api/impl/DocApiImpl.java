@@ -7,8 +7,8 @@ import com.odk.base.vo.response.ServiceResponse;
 import com.odk.odktemplateservice.DocService;
 import com.odk.template.api.DocApi;
 import com.odk.template.api.template.AbstractApiImpl;
-import com.odk.template.util.dto.DocSaveDto;
-import com.odk.template.util.dto.DocSearchDto;
+import com.odk.template.util.dto.DocSaveDTO;
+import com.odk.template.util.dto.DocSearchDTO;
 import com.odk.template.util.enums.BizScene;
 import com.odk.template.util.request.DocSearchRequest;
 import com.odk.template.util.request.DocUploadRequest;
@@ -35,7 +35,7 @@ public class DocApiImpl extends AbstractApiImpl implements DocApi {
     @Override
     public ServiceResponse<DocSearchResponse> searchDoc(DocSearchRequest docSearchRequest) {
 
-        return super.bizProcess(BizScene.DOC_SEARCH, docSearchRequest, DocSearchResponse.class, new ApiCallBack<DocSearchDto, DocSearchResponse>() {
+        return super.bizProcess(BizScene.DOC_SEARCH, docSearchRequest, DocSearchResponse.class, new ApiCallBack<List<DocVO>, DocSearchResponse>() {
 
             @Override
             protected void checkParams(BaseRequest request) {
@@ -47,26 +47,24 @@ public class DocApiImpl extends AbstractApiImpl implements DocApi {
             @Override
             protected Object convert(BaseRequest request) {
                 DocSearchRequest searchRequest = (DocSearchRequest) request;
-                DocSearchDto dto = new DocSearchDto();
+                DocSearchDTO dto = new DocSearchDTO();
                 dto.setKeyword(searchRequest.getKeyword());
                 return dto;
             }
 
             @Override
-            protected ServiceResponse<DocSearchDto> doProcess(Object args) {
-                DocSearchDto dto = (DocSearchDto) args;
-                List<DocVO> docVOS = docService.searchDoc(dto);
-                dto.setDocVOList(docVOS);
-                return ServiceResponse.valueOfSuccess(dto);
+            protected List<DocVO> doProcess(Object args) {
+                DocSearchDTO dto = (DocSearchDTO) args;
+                return docService.searchDoc(dto);
+
             }
 
             @Override
-            protected ServiceResponse<DocSearchResponse> assembleResult(ServiceResponse<DocSearchDto> apiResult, Class<DocSearchResponse> resultClazz) throws Throwable {
+            protected ServiceResponse<DocSearchResponse> assembleResult(List<DocVO> apiResult, Class<DocSearchResponse> resultClazz) throws Throwable {
                 ServiceResponse<DocSearchResponse> docSearchResponseServiceResponse = super.assembleResult(apiResult, resultClazz);
-                DocSearchDto docVOS = apiResult.getData();
-                DocSearchResponse response = new DocSearchResponse();
-                response.setResult(docVOS.getDocVOList());
-                docSearchResponseServiceResponse.setData(response);
+                DocSearchResponse docSearchResponse = new DocSearchResponse();
+                docSearchResponse.setResult(apiResult);
+                docSearchResponseServiceResponse.setData(docSearchResponse);
                 return docSearchResponseServiceResponse;
 
             }
@@ -75,8 +73,8 @@ public class DocApiImpl extends AbstractApiImpl implements DocApi {
     }
 
     @Override
-    public ServiceResponse<DocUploadResponse> uploadDoc(DocUploadRequest docUploadRequest) {
-        return super.bizProcess(BizScene.DOC_UPLOAD, docUploadRequest, DocUploadResponse.class, new ApiCallBack<DocSaveDto, DocUploadResponse>() {
+    public ServiceResponse<String> uploadDoc(DocUploadRequest docUploadRequest) {
+        return super.bizProcess(BizScene.DOC_UPLOAD, docUploadRequest, String.class, new ApiCallBack<String, String>() {
             @Override
             protected void checkParams(BaseRequest request) {
                 super.checkParams(request);
@@ -87,26 +85,22 @@ public class DocApiImpl extends AbstractApiImpl implements DocApi {
             @Override
             protected Object convert(BaseRequest request) {
                 DocUploadRequest uploadRequest = (DocUploadRequest) request;
-                DocSaveDto dto = new DocSaveDto();
+                DocSaveDTO dto = new DocSaveDTO();
                 dto.setDocName(uploadRequest.getName());
                 dto.setFileInputStream(uploadRequest.getFileInputStream());
                 return dto;
             }
 
             @Override
-            protected ServiceResponse<DocSaveDto> doProcess(Object args) {
-                DocSaveDto dto = (DocSaveDto) args;
-                dto.setDocId(docService.saveDoc(dto));
-                return ServiceResponse.valueOfSuccess(dto);
+            protected String doProcess(Object args) {
+                DocSaveDTO dto = (DocSaveDTO) args;
+                return docService.saveDoc(dto);
             }
 
             @Override
-            protected ServiceResponse<DocUploadResponse> assembleResult(ServiceResponse<DocSaveDto> apiResult, Class<DocUploadResponse> resultClazz) throws Throwable {
-                ServiceResponse<DocUploadResponse> docUploadResponseServiceResponse = super.assembleResult(apiResult, resultClazz);
-                DocSaveDto date = apiResult.getData();
-                DocUploadResponse response = new DocUploadResponse();
-                response.setResult(date.getDocId());
-                docUploadResponseServiceResponse.setData(response);
+            protected ServiceResponse<String> assembleResult(String apiResult, Class<String> resultClazz) throws Throwable {
+                ServiceResponse<String> docUploadResponseServiceResponse = super.assembleResult(apiResult, resultClazz);
+                docUploadResponseServiceResponse.setData(apiResult);
                 return docUploadResponseServiceResponse;
 
             }

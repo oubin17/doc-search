@@ -8,8 +8,8 @@ import com.odk.odktemplatemanager.util.FileUtil;
 import com.odk.odktemplateservice.DocService;
 import com.odk.template.domain.domain.Doc;
 import com.odk.template.domain.impl.DocRepository;
-import com.odk.template.util.dto.DocSaveDto;
-import com.odk.template.util.dto.DocSearchDto;
+import com.odk.template.util.dto.DocSaveDTO;
+import com.odk.template.util.dto.DocSearchDTO;
 import com.odk.template.util.enums.EsIndexEnum;
 import com.odk.template.util.response.DocVO;
 import org.apache.commons.lang3.StringUtils;
@@ -45,7 +45,7 @@ public class DocServiceImpl implements DocService {
     private EsDocumentManager esDocumentManager;
 
     @Override
-    public String saveDoc(DocSaveDto docSaveDto) {
+    public String saveDoc(DocSaveDTO docSaveDto) {
         String docId = UUID.randomUUID().toString();
         try {
             //1.上传文件
@@ -77,7 +77,7 @@ public class DocServiceImpl implements DocService {
     }
 
     @Override
-    public List<DocVO> searchDoc(DocSearchDto searchDto) {
+    public List<DocVO> searchDoc(DocSearchDTO searchDto) {
         SearchHit[] searchHits = esDocumentManager.searchByField(EsIndexEnum.DOC_SEARCH.getCode(), "docContents", searchDto.getKeyword());
         if (searchHits == null || searchHits.length == 0) {
             return new ArrayList<>();
