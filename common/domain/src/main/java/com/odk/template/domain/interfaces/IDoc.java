@@ -2,6 +2,8 @@ package com.odk.template.domain.interfaces;
 
 import com.odk.template.domain.domain.Doc;
 
+import java.util.List;
+
 /**
  * IDoc
  *
@@ -17,4 +19,12 @@ public interface IDoc {
      * @param doc
      */
     void saveDoc(Doc doc);
+
+    /**
+     * 根据id查找
+     *
+     * @param docIds
+     * @return
+     */
+    List<Doc> queryByDocIds(List<String> docIds);
 }

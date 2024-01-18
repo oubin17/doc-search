@@ -10,7 +10,9 @@ package com.odk.template.util.enums;
 public enum BizScene {
     HELLO_WORLD("HELLO_WORLD", "HELLO_WORLD"),
 
-    DOC_UPLOAD("DOC_UPLOAD", "文件上传")
+    DOC_UPLOAD("DOC_UPLOAD", "文件上传"),
+
+    DOC_SEARCH("DOC_SEARCH", "文件搜索")
 
     ;
 

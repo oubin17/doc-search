@@ -1,22 +1,29 @@
 package com.odk.odktemplateservice.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.odk.base.exception.BizErrorCode;
 import com.odk.base.exception.BizException;
-import com.odk.odktemplatemanager.EsManager;
+import com.odk.odktemplatemanager.EsDocumentManager;
 import com.odk.odktemplatemanager.util.FileUtil;
 import com.odk.odktemplateservice.DocService;
 import com.odk.template.domain.domain.Doc;
 import com.odk.template.domain.impl.DocRepository;
 import com.odk.template.util.dto.DocSaveDto;
+import com.odk.template.util.dto.DocSearchDto;
+import com.odk.template.util.enums.EsIndexEnum;
+import com.odk.template.util.response.DocVO;
 import org.apache.commons.lang3.StringUtils;
+import org.elasticsearch.search.SearchHit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * DocServiceImpl
@@ -35,7 +42,7 @@ public class DocServiceImpl implements DocService {
 
     private DocRepository docRepository;
 
-    private EsManager esManager;
+    private EsDocumentManager esDocumentManager;
 
     @Override
     public String saveDoc(DocSaveDto docSaveDto) {
@@ -48,7 +55,11 @@ public class DocServiceImpl implements DocService {
             logger.info("文件内容 {}", docContents);
             if (StringUtils.isNotEmpty(docContents)) {
                 //3.内容写到ES
-                esManager.writeToEs(docId, docSaveDto.getDocName(), docContents);
+                Map<String, Object> content = new HashMap<>();
+                content.put("docId", docId);
+                content.put("docName", docSaveDto.getDocName());
+                content.put("docContents", docContents);
+                esDocumentManager.writeEs(EsIndexEnum.DOC_SEARCH.getCode(), content);
             }
         } catch (IOException e) {
             logger.error("文件上传失败，文件名：{}", docSaveDto.getDocName());
@@ -65,13 +76,34 @@ public class DocServiceImpl implements DocService {
         return docId;
     }
 
+    @Override
+    public List<DocVO> searchDoc(DocSearchDto searchDto) {
+        SearchHit[] searchHits = esDocumentManager.searchByField(EsIndexEnum.DOC_SEARCH.getCode(), "docContents", searchDto.getKeyword());
+        if (searchHits == null || searchHits.length == 0) {
+            return new ArrayList<>();
+        }
+
+        List<String> docIds = Arrays.stream(searchHits)
+                .map(SearchHit::getSourceAsString)
+                .map(str -> JSONObject.parseObject(str).getString("docId"))
+                .collect(Collectors.toList());
+        List<Doc> docs = docRepository.queryByDocIds(docIds);
+        return docs.stream().map(doc -> {
+            DocVO vo = new DocVO();
+            BeanUtils.copyProperties(doc, vo);
+            return vo;
+        }).collect(Collectors.toList());
+
+
+    }
+
     @Autowired
     public void setDocRepository(DocRepository docRepository) {
         this.docRepository = docRepository;
     }
 
     @Autowired
-    public void setEsManager(EsManager esManager) {
-        this.esManager = esManager;
+    public void setEsDocumentManager(EsDocumentManager esDocumentManager) {
+        this.esDocumentManager = esDocumentManager;
     }
 }

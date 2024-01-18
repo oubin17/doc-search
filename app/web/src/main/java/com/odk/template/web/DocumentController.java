@@ -2,12 +2,12 @@ package com.odk.template.web;
 
 import com.odk.base.vo.response.ServiceResponse;
 import com.odk.template.api.DocApi;
+import com.odk.template.util.request.DocSearchRequest;
 import com.odk.template.util.request.DocUploadRequest;
+import com.odk.template.util.response.DocSearchResponse;
 import com.odk.template.util.response.DocUploadResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -34,6 +34,14 @@ public class DocumentController {
         docUploadRequest.setFileSize(file.getSize() / 1024 + "K");
 
         return docApi.uploadDoc(docUploadRequest);
+    }
+
+    @GetMapping("/search")
+    public ServiceResponse<DocSearchResponse> searchDoc(@RequestParam("keyword") String keyword) {
+        DocSearchRequest searchRequest = new DocSearchRequest();
+        searchRequest.setKeyword(keyword);
+        return docApi.searchDoc(searchRequest);
+
     }
 
     @Autowired

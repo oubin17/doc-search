@@ -1,6 +1,7 @@
 package com.odk.odktemplatemanager.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.odk.odktemplatemanager.EsDocumentManager;
 import com.odk.odktemplatemanager.EsManager;
 import com.odk.odktemplatemanager.config.EsFunUtil;
 import com.odk.template.util.enums.EsIndexEnum;
@@ -47,8 +48,11 @@ public class EsManagerImpl implements EsManager {
 
     private RestHighLevelClient restHighLevelClient;
 
+    private EsDocumentManager esDocumentManager;
+
     @Override
     public void writeToEs(String docId, String docName, String docContents) {
+
         createIndex(EsIndexEnum.DOC_SEARCH.getCode());
         writeData(docId, docName, docContents);
         System.out.println("搜索结果：" + getEsByContent("回调"));
@@ -190,5 +194,10 @@ public class EsManagerImpl implements EsManager {
     @Autowired
     public void setRestHighLevelClient(RestHighLevelClient restHighLevelClient) {
         this.restHighLevelClient = restHighLevelClient;
+    }
+
+    @Autowired
+    public void setEsDocumentManager(EsDocumentManager esDocumentManager) {
+        this.esDocumentManager = esDocumentManager;
     }
 }

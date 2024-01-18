@@ -67,7 +67,23 @@ public class EsDocumentManagerImpl implements EsDocumentManager {
 
     @Override
     public SearchHit[] searchByField(String index, String field, String value) {
-        return new SearchHit[0];
+        String id = "";
+        SearchRequest request = new SearchRequest(EsIndexEnum.DOC_SEARCH.getCode());
+        //构建查询
+        SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
+        BoolQueryBuilder boolQueryBuilder = new BoolQueryBuilder();
+        boolQueryBuilder.should(matchQuery(field, value));
+        sourceBuilder.query(boolQueryBuilder);
+        request.source(sourceBuilder);
+        SearchResponse response = null;
+        try {
+            response = restHighLevelClient.search(request, RequestOptions.DEFAULT);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        long hitCount = response.getHits().getTotalHits().value;
+        return response.getHits().getHits();
+
     }
 
 
