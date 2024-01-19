@@ -1,9 +1,9 @@
 package com.odk.template.web;
 
 import com.odk.base.vo.response.ServiceResponse;
-import com.odk.template.api.UserLoginApi;
-import com.odk.template.util.request.UserLoginRequest;
-import com.odk.template.util.response.UserLoginResponse;
+import com.odk.template.api.interfaces.UserLoginApi;
+import com.odk.template.api.request.UserLoginRequest;
+import com.odk.template.api.response.UserLoginResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +24,7 @@ public class UserLoginController {
     private UserLoginApi userLoginApi;
 
     @GetMapping()
-    public ServiceResponse<UserLoginResponse> queryUserByUserId(@RequestParam() UserLoginRequest loginRequest) {
+    public ServiceResponse<UserLoginResponse> queryUserByUserId(@RequestParam UserLoginRequest loginRequest) {
         return userLoginApi.userLogin(loginRequest);
     }
 

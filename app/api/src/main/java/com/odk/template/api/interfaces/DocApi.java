@@ -1,9 +1,9 @@
-package com.odk.template.api;
+package com.odk.template.api.interfaces;
 
 import com.odk.base.vo.response.ServiceResponse;
-import com.odk.template.util.request.DocSearchRequest;
-import com.odk.template.util.request.DocUploadRequest;
-import com.odk.template.util.response.DocSearchResponse;
+import com.odk.template.api.request.DocSearchRequest;
+import com.odk.template.api.request.DocUploadRequest;
+import com.odk.template.api.response.DocSearchResponse;
 
 /**
  * DocApi

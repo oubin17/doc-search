@@ -1,6 +1,7 @@
 package com.odk.odktemplateservice;
 
-import com.odk.template.util.request.UserLoginRequest;
+import com.odk.template.util.dto.UserLoginDTO;
+import com.odk.template.util.vo.UserLoginVO;
 
 /**
  * UserLoginService
@@ -17,5 +18,5 @@ public interface UserLoginService {
      * @param userLoginRequest
      * @return
      */
-    boolean userLogin(UserLoginRequest userLoginRequest);
+    UserLoginVO userLogin(UserLoginDTO userLoginDTO);
 }

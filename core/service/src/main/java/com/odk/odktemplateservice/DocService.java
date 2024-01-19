@@ -2,7 +2,7 @@ package com.odk.odktemplateservice;
 
 import com.odk.template.util.dto.DocSaveDTO;
 import com.odk.template.util.dto.DocSearchDTO;
-import com.odk.template.util.response.DocVO;
+import com.odk.template.util.vo.DocVO;
 
 import java.util.List;
 

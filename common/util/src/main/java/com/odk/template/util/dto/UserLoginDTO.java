@@ -1,11 +1,11 @@
-package com.odk.template.util.request;
+package com.odk.template.util.dto;
 
-import com.odk.base.vo.request.BaseRequest;
+import com.odk.base.dto.DTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * UserLoginRequest
+ * UserLoginDTO
  *
  * @description:
  * @version: 1.0
@@ -13,7 +13,8 @@ import lombok.EqualsAndHashCode;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class UserLoginRequest extends BaseRequest {
+public class UserLoginDTO extends DTO {
+
 
     /**
      * 登录ID

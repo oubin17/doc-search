@@ -3,6 +3,7 @@ package com.odk.odktemplateservice.impl.user;
 import com.odk.odktemplateservice.UserQueryService;
 import com.odk.template.domain.entity.UserEntity;
 import com.odk.template.domain.impl.UserRepository;
+import com.odk.template.util.dto.UserQueryDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,11 @@ public class UserQueryServiceImpl implements UserQueryService {
     @Override
     public UserEntity queryUserByUserId(String userId) {
         return userRepository.queryByUserId(userId);
+    }
+
+    @Override
+    public UserEntity queryUserByLoginId(UserQueryDTO userQueryDTO) {
+        return userRepository.queryByAccessToken(userQueryDTO.getLoginType(), userQueryDTO.getLoginId());
     }
 
     @Autowired

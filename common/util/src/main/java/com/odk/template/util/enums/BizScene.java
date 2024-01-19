@@ -14,7 +14,9 @@ public enum BizScene {
 
     DOC_SEARCH("DOC_SEARCH", "文件搜索"),
 
-    USER_REGISTER("USER_REGISTER", "用户注册")
+    USER_REGISTER("USER_REGISTER", "用户注册"),
+
+    USER_LOGIN("USER_LOGIN", "用户登录")
 
     ;
 

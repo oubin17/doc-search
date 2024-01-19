@@ -1,6 +1,7 @@
 package com.odk.odktemplateservice;
 
 import com.odk.template.domain.entity.UserEntity;
+import com.odk.template.util.dto.UserQueryDTO;
 
 /**
  * UserService
@@ -18,4 +19,12 @@ public interface UserQueryService {
      * @return
      */
     UserEntity queryUserByUserId(String userId);
+
+    /**
+     * 根据 userID查找用户
+     *
+     * @param userId
+     * @return
+     */
+    UserEntity queryUserByLoginId(UserQueryDTO userQueryDTO);
 }

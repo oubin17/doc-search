@@ -1,7 +1,7 @@
 package com.odk.template.api.impl.es;
 
 import com.odk.odktemplateservice.EsService;
-import com.odk.template.api.EsApi;
+import com.odk.template.api.interfaces.EsApi;
 import com.odk.template.util.enums.EsIndexEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

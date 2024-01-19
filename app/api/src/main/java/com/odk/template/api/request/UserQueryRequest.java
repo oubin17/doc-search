@@ -1,19 +1,19 @@
-package com.odk.template.util.request;
+package com.odk.template.api.request;
 
 import com.odk.base.vo.request.BaseRequest;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * UserRegisterRequest
+ * UserQueryRequest
  *
  * @description:
  * @version: 1.0
- * @author: oubin on 2024/1/18
+ * @author: oubin on 2024/1/20
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class UserRegisterRequest extends BaseRequest {
+public class UserQueryRequest extends BaseRequest {
 
     /**
      * 登录ID
@@ -24,15 +24,4 @@ public class UserRegisterRequest extends BaseRequest {
      * 登录类型
      */
     private String loginType;
-
-    /**
-     * 用户名称
-     */
-    private String userName;
-
-    /**
-     * 密码
-     */
-    private String password;
-
 }

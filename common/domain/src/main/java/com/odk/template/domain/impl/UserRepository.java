@@ -49,7 +49,7 @@ public class UserRepository implements IUser {
 
     @Override
     public UserEntity queryByUserId(String userId) {
-        String sql = "select * from doc_search.t_user_base where user_id = :userId";
+        String sql = "select * from doc_search.t_user_base where user_id = ?";
         UserBase userBase = null;
         try {
             userBase = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(UserBase.class), userId);
@@ -76,6 +76,33 @@ public class UserRepository implements IUser {
         userEntity.setUserType(UserTypeEnum.getByCode(userBase.getUserType()));
         userEntity.setUserStatus(UserStatusEnum.getByCode(userBase.getUserStatus()));
         return userEntity;
+    }
+
+    @Override
+    public UserEntity queryByAccessToken(String tokenType, String tokenValue) {
+        String sql = "select * from doc_search.t_user_access_token where token_type = ? and token_value = ?";
+        UserAccessToken accessToken = null;
+        try {
+            accessToken = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(UserAccessToken.class), tokenType, tokenValue);
+
+//             userBase = jdbcTemplate.query(sql, new Object[]{userId}, rs -> {
+//                UserBase base = new UserBase();
+//                base.setUserId(rs.getString("user_id"));
+//                base.setUserName(rs.getString("user_name"));
+//                base.setUserType(rs.getString("user_type"));
+//                base.setUserStatus(rs.getString("user_status"));
+//                base.setCreateTime(rs.getDate("create_date"));
+//                base.setUpdateTime(rs.getDate("update_date"));
+//                base.setTenantId(rs.getString("tenant_id"));
+//                return base;
+//            });
+        } catch (Exception e) {
+            logger.error("找不到用户，tokenType={}, tokenValue={}", tokenType, tokenValue);
+        }
+        if (null == accessToken) {
+            return null;
+        }
+        return queryByUserId(accessToken.getUserId());
     }
 
     @Override

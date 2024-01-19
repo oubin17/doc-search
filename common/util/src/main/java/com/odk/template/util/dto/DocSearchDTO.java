@@ -1,7 +1,7 @@
 package com.odk.template.util.dto;
 
 import com.odk.base.dto.DTO;
-import com.odk.template.util.response.DocVO;
+import com.odk.template.util.vo.DocVO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

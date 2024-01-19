@@ -1,10 +1,10 @@
 package com.odk.template.web;
 
 import com.odk.base.vo.response.ServiceResponse;
-import com.odk.template.api.DocApi;
-import com.odk.template.util.request.DocSearchRequest;
-import com.odk.template.util.request.DocUploadRequest;
-import com.odk.template.util.response.DocSearchResponse;
+import com.odk.template.api.interfaces.DocApi;
+import com.odk.template.api.request.DocSearchRequest;
+import com.odk.template.api.request.DocUploadRequest;
+import com.odk.template.api.response.DocSearchResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;

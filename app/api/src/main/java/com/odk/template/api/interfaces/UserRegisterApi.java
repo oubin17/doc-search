@@ -1,7 +1,7 @@
-package com.odk.template.api;
+package com.odk.template.api.interfaces;
 
 import com.odk.base.vo.response.ServiceResponse;
-import com.odk.template.util.request.UserRegisterRequest;
+import com.odk.template.api.request.UserRegisterRequest;
 
 /**
  * HelloWorldTemplate

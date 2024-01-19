@@ -1,4 +1,4 @@
-package com.odk.template.util.request;
+package com.odk.template.api.request;
 
 import com.odk.base.vo.request.BaseRequest;
 import lombok.Data;

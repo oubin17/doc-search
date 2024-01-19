@@ -11,7 +11,7 @@ import com.odk.template.domain.impl.DocRepository;
 import com.odk.template.util.dto.DocSaveDTO;
 import com.odk.template.util.dto.DocSearchDTO;
 import com.odk.template.util.enums.EsIndexEnum;
-import com.odk.template.util.response.DocVO;
+import com.odk.template.util.vo.DocVO;
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.search.SearchHit;
 import org.slf4j.Logger;

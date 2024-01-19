@@ -1,5 +1,6 @@
-package com.odk.template.util.response;
+package com.odk.template.api.response;
 
+import com.odk.template.util.vo.DocVO;
 import lombok.Data;
 
 import java.util.List;

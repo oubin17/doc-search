@@ -1,8 +1,8 @@
 package com.odk.template.web;
 
 import com.odk.base.vo.response.ServiceResponse;
-import com.odk.template.api.UserRegisterApi;
-import com.odk.template.util.request.UserRegisterRequest;
+import com.odk.template.api.interfaces.UserRegisterApi;
+import com.odk.template.api.request.UserRegisterRequest;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

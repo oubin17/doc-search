@@ -41,6 +41,15 @@ public interface IUser {
     UserEntity queryByUserId(String userId);
 
     /**
+     * 根据登录ID查询用户
+     *
+     * @param loginType
+     * @param loginId
+     * @return
+     */
+    UserEntity queryByAccessToken(String loginType, String loginId);
+
+    /**
      * 查找token
      *
      * @param tokenType

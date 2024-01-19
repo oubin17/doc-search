@@ -1,6 +1,7 @@
-package com.odk.template.api;
+package com.odk.template.api.interfaces;
 
 import com.odk.base.vo.response.ServiceResponse;
+import com.odk.template.api.request.UserQueryRequest;
 import com.odk.template.domain.entity.UserEntity;
 
 /**
@@ -19,4 +20,14 @@ public interface UserQueryApi {
      * @return
      */
     ServiceResponse<UserEntity> queryUserByUserId(String userId);
+
+    /**
+     * 根据loginId查询对象
+     *
+     * @param userQueryRequest
+     * @return
+     */
+    ServiceResponse<UserEntity> queryUserByLoginId(UserQueryRequest userQueryRequest);
+
+
 }

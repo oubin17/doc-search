@@ -1,4 +1,4 @@
-package com.odk.template.api;
+package com.odk.template.api.interfaces;
 
 /**
  * EsApi

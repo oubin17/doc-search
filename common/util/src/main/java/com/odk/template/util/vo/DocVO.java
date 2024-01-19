@@ -1,4 +1,4 @@
-package com.odk.template.util.response;
+package com.odk.template.util.vo;
 
 import lombok.Data;
 

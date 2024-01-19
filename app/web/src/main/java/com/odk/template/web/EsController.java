@@ -2,7 +2,7 @@ package com.odk.template.web;
 
 import com.odk.base.exception.BizErrorCode;
 import com.odk.base.vo.response.ServiceResponse;
-import com.odk.template.api.EsApi;
+import com.odk.template.api.interfaces.EsApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
