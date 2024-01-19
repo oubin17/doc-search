@@ -1,4 +1,4 @@
-package com.odk.template.api.impl;
+package com.odk.template.api.impl.doc;
 
 import com.odk.base.exception.AssertUtil;
 import com.odk.base.exception.BizErrorCode;
@@ -13,7 +13,6 @@ import com.odk.template.util.enums.BizScene;
 import com.odk.template.util.request.DocSearchRequest;
 import com.odk.template.util.request.DocUploadRequest;
 import com.odk.template.util.response.DocSearchResponse;
-import com.odk.template.util.response.DocUploadResponse;
 import com.odk.template.util.response.DocVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

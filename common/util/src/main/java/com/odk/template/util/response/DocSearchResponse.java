@@ -1,5 +1,7 @@
 package com.odk.template.util.response;
 
+import lombok.Data;
+
 import java.util.List;
 
 /**
@@ -9,6 +11,7 @@ import java.util.List;
  * @version: 1.0
  * @author: oubin on 2024/1/17
  */
+@Data
 public class DocSearchResponse {
 
     /**
@@ -17,11 +20,4 @@ public class DocSearchResponse {
      */
     private List<DocVO> result;
 
-    public List<DocVO> getResult() {
-        return result;
-    }
-
-    public void setResult(List<DocVO> result) {
-        this.result = result;
-    }
 }

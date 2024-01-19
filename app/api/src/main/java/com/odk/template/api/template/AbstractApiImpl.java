@@ -86,7 +86,6 @@ public class AbstractApiImpl extends AbstractApi {
          * @param request
          */
         protected void checkParams(BaseRequest request) {
-            AssertUtil.notNull(request, BizErrorCode.PARAM_ILLEGAL);
         }
 
         /**

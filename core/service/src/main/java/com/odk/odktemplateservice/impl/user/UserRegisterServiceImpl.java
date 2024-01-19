@@ -1,16 +1,20 @@
 package com.odk.odktemplateservice.impl.user;
 
+import com.alibaba.fastjson.JSONObject;
 import com.odk.base.enums.user.IdentificationTypeEnum;
 import com.odk.base.enums.user.UserStatusEnum;
 import com.odk.base.enums.user.UserTypeEnum;
 import com.odk.base.exception.AssertUtil;
 import com.odk.base.exception.BizErrorCode;
+import com.odk.base.exception.BizException;
 import com.odk.odktemplateservice.UserRegisterService;
 import com.odk.template.domain.domain.UserAccessToken;
 import com.odk.template.domain.domain.UserBase;
 import com.odk.template.domain.domain.UserIdentification;
 import com.odk.template.domain.impl.UserRepository;
 import com.odk.template.util.dto.UserRegisterDTO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionStatus;
@@ -29,6 +33,8 @@ import java.util.UUID;
 @Service
 public class UserRegisterServiceImpl implements UserRegisterService {
 
+    private static final Logger logger = LoggerFactory.getLogger(UserRegisterServiceImpl.class);
+
     private UserRepository userRepository;
 
     private TransactionTemplate transactionTemplate;
@@ -39,14 +45,21 @@ public class UserRegisterServiceImpl implements UserRegisterService {
 //        UserBase one = userRepository.findOne(12445);
         AssertUtil.isFalse(exist, BizErrorCode.USER_HAS_EXISTED);
         String userId = UUID.randomUUID().toString();
-        transactionTemplate.execute(new TransactionCallbackWithoutResult() {
-            @Override
-            protected void doInTransactionWithoutResult(TransactionStatus status) {
-                addUserBase(userId, userRegisterDTO);
-                addAccessToken(userId, userRegisterDTO);
-                addIdentification(userId, userRegisterDTO);
-            }
-        });
+
+        try {
+            transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+                @Override
+                protected void doInTransactionWithoutResult(TransactionStatus status) {
+                    addUserBase(userId, userRegisterDTO);
+                    addAccessToken(userId, userRegisterDTO);
+                    addIdentification(userId, userRegisterDTO);
+                }
+            });
+        } catch (Exception e) {
+            //todo 捕获唯一键冲突异常
+            logger.error("注册发生异常，注册信息：{}, 异常原因：", JSONObject.toJSONString(userRegisterDTO), e);
+            throw new BizException(BizErrorCode.LOGIN_ID_DUPLICATE);
+        }
 
         return userId;
     }

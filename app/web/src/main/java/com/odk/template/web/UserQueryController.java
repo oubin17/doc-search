@@ -17,12 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
  * @author: oubin on 2024/1/18
  */
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/user/query")
 public class UserQueryController {
 
     private UserQueryApi userQueryApi;
 
-    @GetMapping("/query/userid")
+    @GetMapping("/userid")
     public ServiceResponse<UserEntity> queryUserByUserId(@RequestParam("userId") String userId) {
         return userQueryApi.queryUserByUserId(userId);
     }

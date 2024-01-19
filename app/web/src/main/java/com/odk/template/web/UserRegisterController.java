@@ -3,8 +3,10 @@ package com.odk.template.web;
 import com.odk.base.vo.response.ServiceResponse;
 import com.odk.template.api.UserRegisterApi;
 import com.odk.template.util.request.UserRegisterRequest;
-import com.odk.template.util.response.HelloWorldResponse;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * HelloWorldController
@@ -14,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
  * @author: oubin on 2023/11/10
  */
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/user/register")
 public class UserRegisterController {
 
     private final UserRegisterApi userRegisterApi;
@@ -23,30 +25,15 @@ public class UserRegisterController {
         this.userRegisterApi = userRegisterApi;
     }
 
-
     /**
      * 用户注册
      *
      * @param userRegisterRequest
      * @return
      */
-    @PostMapping("/register")
+    @PostMapping()
     public ServiceResponse<String> userRegister(@RequestBody UserRegisterRequest userRegisterRequest) {
         return userRegisterApi.userRegister(userRegisterRequest);
-    }
-
-
-    /**
-     * 测试接口
-     *
-     * @return
-     */
-    @GetMapping
-    public ServiceResponse<HelloWorldResponse> helloWorld() {
-        HelloWorldResponse response = new HelloWorldResponse();
-        response.setResult("调用到服务端啦");
-
-        return ServiceResponse.valueOfSuccess(response);
     }
 
 }

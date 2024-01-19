@@ -1,4 +1,4 @@
-package com.odk.template.api.impl;
+package com.odk.template.api.impl.user;
 
 import com.odk.base.vo.response.ServiceResponse;
 import com.odk.odktemplateservice.UserQueryService;

@@ -1,4 +1,4 @@
-package com.odk.template.api.impl;
+package com.odk.template.api.impl.user;
 
 import com.odk.base.enums.user.TokenTypeEnum;
 import com.odk.base.exception.AssertUtil;

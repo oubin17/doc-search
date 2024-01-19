@@ -18,11 +18,6 @@ import java.io.InputStream;
 public class DocSaveDTO extends DTO {
 
     /**
-     * 文件id
-     */
-    private String docId;
-
-    /**
      * 文件名称
      */
     private String docName;

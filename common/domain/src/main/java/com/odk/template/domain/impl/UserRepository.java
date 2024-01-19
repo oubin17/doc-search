@@ -79,6 +79,26 @@ public class UserRepository implements IUser {
     }
 
     @Override
+    public UserAccessToken queryAccessTokenByTokenValue(String tokenType, String tokenValue) {
+        String sql = "select * from doc_search.t_user_access_token where token_type = ? and token_value = ?";
+        UserAccessToken accessToken = null;
+        try {
+            accessToken = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(UserAccessToken.class), tokenType, tokenValue);
+
+        } catch (Exception e) {
+            logger.error("找不到token, tokenType={}, tokenValue={}", tokenType, tokenValue);
+        }
+        return accessToken;
+    }
+
+    @Override
+    public UserIdentification queryIdentification(String userId, String identifyType) {
+        String sql = "select * from doc_search.t_user_identification where user_id = ? and identify_type = ?";
+        return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(UserIdentification.class), userId, identifyType);
+
+    }
+
+    @Override
     public void addUserBase(UserBase userBase) {
         String sql = "insert into doc_search.t_user_base(user_id, user_type, user_status, user_name, create_time, update_time, tenant_id) " +
                 "values (?, ?, ?, ?, ?, ?, ?)";
