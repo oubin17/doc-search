@@ -2,7 +2,7 @@ package com.odk.template.util.vo;
 
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * DocDto
@@ -20,7 +20,7 @@ public class DocVO {
 
     private String docPath;
 
-    private Date createTime;
+    private LocalDateTime createTime;
 
-    private Date updateTime;
+    private LocalDateTime updateTime;
 }

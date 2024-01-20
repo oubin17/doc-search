@@ -2,6 +2,7 @@ package com.odk.template.web;
 
 import com.odk.base.exception.BizErrorCode;
 import com.odk.base.vo.response.ServiceResponse;
+import com.odk.template.api.interceptor.NoLogigCondition;
 import com.odk.template.api.interfaces.EsApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +22,7 @@ public class EsController {
 
     private EsApi esApi;
 
+    @NoLogigCondition
     @PostMapping("/index/rebuild")
     public ServiceResponse<Boolean> reBuildIndex() {
         boolean rebuild = esApi.rebuildIndex();

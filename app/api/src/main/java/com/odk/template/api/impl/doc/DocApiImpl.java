@@ -6,13 +6,14 @@ import com.odk.base.vo.request.BaseRequest;
 import com.odk.base.vo.response.ServiceResponse;
 import com.odk.odktemplateservice.DocService;
 import com.odk.template.api.interfaces.DocApi;
+import com.odk.template.api.request.DocDeleteRequest;
+import com.odk.template.api.request.DocSearchRequest;
+import com.odk.template.api.request.DocUploadRequest;
+import com.odk.template.api.response.DocSearchResponse;
 import com.odk.template.api.template.AbstractApiImpl;
 import com.odk.template.util.dto.DocSaveDTO;
 import com.odk.template.util.dto.DocSearchDTO;
 import com.odk.template.util.enums.BizScene;
-import com.odk.template.api.request.DocSearchRequest;
-import com.odk.template.api.request.DocUploadRequest;
-import com.odk.template.api.response.DocSearchResponse;
 import com.odk.template.util.vo.DocVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -69,6 +70,39 @@ public class DocApiImpl extends AbstractApiImpl implements DocApi {
             }
         });
 
+    }
+
+    @Override
+    public ServiceResponse<Boolean> deleteDoc(DocDeleteRequest docDeleteRequest) {
+        return super.bizProcess(BizScene.DOC_DELETE, docDeleteRequest, Boolean.class, new ApiCallBack<String, Boolean>() {
+
+            @Override
+            protected void checkParams(BaseRequest request) {
+                super.checkParams(request);
+                DocDeleteRequest deleteRequest = (DocDeleteRequest) request;
+                AssertUtil.notNull(deleteRequest.getDocId(), BizErrorCode.PARAM_ILLEGAL, "docId is null.");
+            }
+
+            @Override
+            protected Object convert(BaseRequest request) {
+                DocDeleteRequest deleteRequest = (DocDeleteRequest) request;
+                return deleteRequest.getDocId();
+            }
+
+            @Override
+            protected String doProcess(Object args) {
+                String docId = (String) args;
+                return docService.deleteDoc(docId);
+            }
+
+            @Override
+            protected ServiceResponse<Boolean> assembleResult(String apiResult, Class<Boolean> resultClazz) throws Throwable {
+                ServiceResponse<Boolean> deleteResponse = super.assembleResult(apiResult, resultClazz);
+                deleteResponse.setData(true);
+                return deleteResponse;
+
+            }
+        });
     }
 
     @Override

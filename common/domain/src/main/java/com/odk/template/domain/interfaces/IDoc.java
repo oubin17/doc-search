@@ -21,6 +21,15 @@ public interface IDoc {
     void saveDoc(Doc doc);
 
     /**
+     * 检查文件是否存在
+     *
+     * @param docId
+     * @param userId
+     * @return
+     */
+    Doc queryDoc(String docId, String userId);
+
+    /**
      * 根据id查找
      *
      * @param docIds

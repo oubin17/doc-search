@@ -122,9 +122,14 @@ public class AbstractApiImpl extends AbstractApi {
          * @throws Throwable
          */
         protected ServiceResponse<R> assembleResult(T apiResult, Class<R> resultClazz) throws Throwable {
-            R response = resultClazz.newInstance();
             ServiceResponse<R> serviceResponse = ServiceResponse.valueOfSuccess();
-            serviceResponse.setData(response);
+            try {
+                //解决不存在无参构造函数导致的报错
+                R response = resultClazz.newInstance();
+                serviceResponse.setData(response);
+            } catch (Exception e) {
+                LOGGER.error("不存在无参构造函数，resultClazz={}", resultClazz.getName());
+            }
             return serviceResponse;
         }
 

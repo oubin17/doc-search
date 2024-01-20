@@ -1,6 +1,7 @@
 package com.odk.odktemplateservice.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.odk.base.exception.AssertUtil;
 import com.odk.base.exception.BizErrorCode;
 import com.odk.base.exception.BizException;
 import com.odk.odktemplatemanager.EsDocumentManager;
@@ -45,10 +46,24 @@ public class DocServiceImpl implements DocService {
 
     private EsDocumentManager esDocumentManager;
 
+
+    @Override
+    public String deleteDoc(String docId) {
+        //1.检查是否是你本人的文件
+        Doc doc = docRepository.queryDoc(docId, ServiceContextHolder.getUserId());
+        AssertUtil.notNull(doc, BizErrorCode.PARAM_ILLEGAL, "文件不存在");
+        //2.删除es文件
+        esDocumentManager.deleteByDocId(docId);
+        //3.删除本地文件
+        FileUtil.deleteFile(doc.getDocPath());
+
+        return null;
+    }
+
     @Override
     public String saveDoc(DocSaveDTO docSaveDto) {
         String docId = UUID.randomUUID().toString();
-        String finalPath = "";
+        String finalPath;
 
         try {
             //1.上传文件

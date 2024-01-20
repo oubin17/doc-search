@@ -29,7 +29,7 @@ public class TokenHolder {
             .build();
 
     static {
-        tokenCache.put(USER_ID, TOKEN);
+        tokenCache.put(TOKEN, USER_ID);
     }
 
     // 创建会话并返回会话ID

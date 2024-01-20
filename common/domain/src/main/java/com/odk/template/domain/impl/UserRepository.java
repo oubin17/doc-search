@@ -2,6 +2,7 @@ package com.odk.template.domain.impl;
 
 import com.odk.base.enums.user.UserStatusEnum;
 import com.odk.base.enums.user.UserTypeEnum;
+import com.odk.base.util.LocalDateTimeUtil;
 import com.odk.template.domain.domain.UserAccessToken;
 import com.odk.template.domain.domain.UserBase;
 import com.odk.template.domain.domain.UserIdentification;
@@ -13,8 +14,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-
-import java.util.Date;
 
 /**
  * UserRepository
@@ -129,20 +128,20 @@ public class UserRepository implements IUser {
     public void addUserBase(UserBase userBase) {
         String sql = "insert into doc_search.t_user_base(user_id, user_type, user_status, user_name, create_time, update_time, tenant_id) " +
                 "values (?, ?, ?, ?, ?, ?, ?)";
-        this.jdbcTemplate.update(sql, userBase.getUserId(), userBase.getUserType(), userBase.getUserStatus(), userBase.getUserName(), new Date(), new Date(), "TENANT_DOC_SEARCH");
+        this.jdbcTemplate.update(sql, userBase.getUserId(), userBase.getUserType(), userBase.getUserStatus(), userBase.getUserName(), LocalDateTimeUtil.getCurrentDateTime(), LocalDateTimeUtil.getCurrentDateTime(), "TENANT_DOC_SEARCH");
     }
 
     @Override
     public void addAccessToken(UserAccessToken accessToken) {
         String sql = "insert into doc_search.t_user_access_token(token_id, user_id, token_type, token_value, create_time, update_time, tenant_id) " +
                 "values (?, ?, ?, ?, ?, ?, ?)";
-        this.jdbcTemplate.update(sql, accessToken.getTokenId(), accessToken.getUserId(), accessToken.getTokenType(), accessToken.getTokenValue(), new Date(), new Date(), "TENANT_DOC_SEARCH");
+        this.jdbcTemplate.update(sql, accessToken.getTokenId(), accessToken.getUserId(), accessToken.getTokenType(), accessToken.getTokenValue(), LocalDateTimeUtil.getCurrentDateTime(), LocalDateTimeUtil.getCurrentDateTime(), "TENANT_DOC_SEARCH");
     }
 
     @Override
     public void addIdentification(UserIdentification identification) {
         String sql = "insert into doc_search.t_user_identification(identify_id, user_id, identify_type, identify_value, create_time, update_time, tenant_id) " +
                 "values (?, ?, ?, ?, ?, ?, ?)";
-        this.jdbcTemplate.update(sql, identification.getIdentifyId(), identification.getUserId(), identification.getIdentifyType(), identification.getIdentifyValue(), new Date(), new Date(), "TENANT_DOC_SEARCH");
+        this.jdbcTemplate.update(sql, identification.getIdentifyId(), identification.getUserId(), identification.getIdentifyType(), identification.getIdentifyValue(), LocalDateTimeUtil.getCurrentDateTime(), LocalDateTimeUtil.getCurrentDateTime(), "TENANT_DOC_SEARCH");
     }
 }

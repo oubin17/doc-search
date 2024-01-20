@@ -12,6 +12,8 @@ public enum BizScene {
 
     DOC_UPLOAD("DOC_UPLOAD", "文件上传"),
 
+    DOC_DELETE("DOC_DELETE", "文档删除"),
+
     DOC_SEARCH("DOC_SEARCH", "文件搜索"),
 
     USER_REGISTER("USER_REGISTER", "用户注册"),

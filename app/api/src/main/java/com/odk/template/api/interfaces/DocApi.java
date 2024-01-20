@@ -1,6 +1,7 @@
 package com.odk.template.api.interfaces;
 
 import com.odk.base.vo.response.ServiceResponse;
+import com.odk.template.api.request.DocDeleteRequest;
 import com.odk.template.api.request.DocSearchRequest;
 import com.odk.template.api.request.DocUploadRequest;
 import com.odk.template.api.response.DocSearchResponse;
@@ -23,10 +24,20 @@ public interface DocApi {
     ServiceResponse<String> uploadDoc(DocUploadRequest docUploadRequest);
 
     /**
+     * 删除文档
+     *
+     * @param docDeleteRequest
+     * @return
+     */
+    ServiceResponse<Boolean> deleteDoc(DocDeleteRequest docDeleteRequest);
+
+    /**
      * 文件搜索
      *
      * @param docSearchRequest
      * @return
      */
     ServiceResponse<DocSearchResponse> searchDoc(DocSearchRequest docSearchRequest);
+
+
 }

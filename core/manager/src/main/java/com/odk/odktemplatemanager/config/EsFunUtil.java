@@ -33,6 +33,11 @@ public class EsFunUtil {
                 .field("index", "true")
                 .endObject()
 
+                .startObject("userId")
+                .field("type", "keyword")
+                .field("index", "true")
+                .endObject()
+
                 .startObject("docId")
                 .field("type", "keyword")
                 .field("index", "true")

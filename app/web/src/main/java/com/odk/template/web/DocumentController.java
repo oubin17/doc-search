@@ -2,6 +2,7 @@ package com.odk.template.web;
 
 import com.odk.base.vo.response.ServiceResponse;
 import com.odk.template.api.interfaces.DocApi;
+import com.odk.template.api.request.DocDeleteRequest;
 import com.odk.template.api.request.DocSearchRequest;
 import com.odk.template.api.request.DocUploadRequest;
 import com.odk.template.api.response.DocSearchResponse;
@@ -34,10 +35,13 @@ public class DocumentController {
 
         return docApi.uploadDoc(docUploadRequest);
     }
-//
-//    public ServiceResponse<Boolean> deleteDocument() {
-//
-//    }
+
+    @DeleteMapping
+    public ServiceResponse deleteDocument(@RequestParam("docId") String docId) {
+        DocDeleteRequest docDeleteRequest = new DocDeleteRequest();
+        docDeleteRequest.setDocId(docId);
+        return docApi.deleteDoc(docDeleteRequest);
+    }
 
     @GetMapping("/search")
     public ServiceResponse<DocSearchResponse> searchDoc(@RequestParam("keyword") String keyword) {

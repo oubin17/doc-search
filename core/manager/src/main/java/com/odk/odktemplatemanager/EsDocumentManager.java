@@ -25,9 +25,9 @@ public interface EsDocumentManager {
     /**
      * 根据es id删除文档
      *
-     * @param id
+     * @param docId
      */
-    void deleteByDocId(String id);
+    void deleteByDocId(String docId);
 
     /**
      * 根据字段查询

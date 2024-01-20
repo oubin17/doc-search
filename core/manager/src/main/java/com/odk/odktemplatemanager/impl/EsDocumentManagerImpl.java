@@ -2,7 +2,9 @@ package com.odk.odktemplatemanager.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.odk.odktemplatemanager.EsDocumentManager;
+import com.odk.template.util.constext.ServiceContextHolder;
 import com.odk.template.util.enums.EsIndexEnum;
+import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.action.bulk.BulkRequest;
 import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.delete.DeleteRequest;
@@ -54,8 +56,11 @@ public class EsDocumentManagerImpl implements EsDocumentManager {
     }
 
     @Override
-    public void deleteByDocId(String id) {
-        String esIdByContentId = getEsIdByContentId(id);
+    public void deleteByDocId(String docId) {
+        String esIdByContentId = getEsIdByContentId(docId);
+        if (StringUtils.isEmpty(esIdByContentId)) {
+            return;
+        }
         DeleteRequest deleteRequest = new DeleteRequest(EsIndexEnum.DOC_SEARCH.getCode(), esIdByContentId);
         DeleteResponse delete = null;
         try {
@@ -67,12 +72,12 @@ public class EsDocumentManagerImpl implements EsDocumentManager {
 
     @Override
     public SearchHit[] searchByField(String index, String field, String value) {
-        String id = "";
         SearchRequest request = new SearchRequest(EsIndexEnum.DOC_SEARCH.getCode());
         //构建查询
         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
         BoolQueryBuilder boolQueryBuilder = new BoolQueryBuilder();
         boolQueryBuilder.should(matchQuery(field, value));
+        boolQueryBuilder.must(matchQuery("userId", ServiceContextHolder.getUserId()));
         sourceBuilder.query(boolQueryBuilder);
         request.source(sourceBuilder);
         SearchResponse response = null;
@@ -86,14 +91,13 @@ public class EsDocumentManagerImpl implements EsDocumentManager {
 
     }
 
-
-    public String getEsIdByContentId(String contentId) {
+    public String getEsIdByContentId(String docId) {
         String id = "";
         SearchRequest request = new SearchRequest(EsIndexEnum.DOC_SEARCH.getCode());
         //构建查询
         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
         BoolQueryBuilder boolQueryBuilder = new BoolQueryBuilder();
-        boolQueryBuilder.should(matchQuery("docId", contentId));
+        boolQueryBuilder.should(matchQuery("docId", docId));
         sourceBuilder.query(boolQueryBuilder);
         request.source(sourceBuilder);
         SearchResponse response = null;

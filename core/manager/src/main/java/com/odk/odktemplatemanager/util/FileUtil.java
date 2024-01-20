@@ -23,6 +23,24 @@ public class FileUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(FileUtil.class);
 
+    /**
+     * 删除本地文件
+     *
+     * @param filePath
+     * @return
+     */
+    public static void deleteFile(String filePath) {
+        //根据路径创建文件对象
+        File file = new File(filePath);
+        try {
+            //路径是个文件且不为空时删除文件
+            if(file.isFile()&&file.exists()){
+                file.delete();
+            }
+        } catch (Exception e) {
+            logger.error("删除本地文件失败，文件地址：{}", filePath);
+        }
+    }
 
     /**
      * 保存图片到服务器

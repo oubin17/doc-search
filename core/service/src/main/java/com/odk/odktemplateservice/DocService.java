@@ -21,6 +21,14 @@ public interface DocService {
     String saveDoc(DocSaveDTO docSaveDto);
 
     /**
+     * 删除文件
+     *
+     * @param docId
+     * @return
+     */
+    String deleteDoc(String docId);
+
+    /**
      * 文件搜索
      *
      * @param searchDto
