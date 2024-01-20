@@ -1,14 +1,12 @@
 package com.odk.template.web;
 
 import com.odk.base.vo.response.ServiceResponse;
+import com.odk.template.api.interceptor.NoLogigCondition;
 import com.odk.template.api.interfaces.UserLoginApi;
 import com.odk.template.api.request.UserLoginRequest;
 import com.odk.template.api.response.UserLoginResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * UserLoginController
@@ -23,8 +21,9 @@ public class UserLoginController {
 
     private UserLoginApi userLoginApi;
 
-    @GetMapping()
-    public ServiceResponse<UserLoginResponse> queryUserByUserId(@RequestParam UserLoginRequest loginRequest) {
+    @NoLogigCondition
+    @PostMapping()
+    public ServiceResponse<UserLoginResponse> queryUserByUserId(@RequestBody UserLoginRequest loginRequest) {
         return userLoginApi.userLogin(loginRequest);
     }
 

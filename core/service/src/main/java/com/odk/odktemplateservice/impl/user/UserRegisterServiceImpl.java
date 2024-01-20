@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.odk.base.enums.user.IdentificationTypeEnum;
 import com.odk.base.enums.user.UserStatusEnum;
 import com.odk.base.enums.user.UserTypeEnum;
-import com.odk.base.exception.AssertUtil;
 import com.odk.base.exception.BizErrorCode;
 import com.odk.base.exception.BizException;
 import com.odk.odktemplateservice.UserRegisterService;
@@ -16,6 +15,7 @@ import com.odk.template.util.dto.UserRegisterDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallbackWithoutResult;
@@ -41,9 +41,8 @@ public class UserRegisterServiceImpl implements UserRegisterService {
 
     @Override
     public String registerUser(UserRegisterDTO userRegisterDTO) {
-        boolean exist = userRepository.checkUserExisted(userRegisterDTO.getLoginType(), userRegisterDTO.getLoginId());
-//        UserBase one = userRepository.findOne(12445);
-        AssertUtil.isFalse(exist, BizErrorCode.USER_HAS_EXISTED);
+//        boolean exist = userRepository.checkUserExisted(userRegisterDTO.getLoginType(), userRegisterDTO.getLoginId());
+//        AssertUtil.isFalse(exist, BizErrorCode.USER_HAS_EXISTED);
         String userId = UUID.randomUUID().toString();
 
         try {
@@ -55,10 +54,12 @@ public class UserRegisterServiceImpl implements UserRegisterService {
                     addIdentification(userId, userRegisterDTO);
                 }
             });
-        } catch (Exception e) {
-            //todo 捕获唯一键冲突异常
-            logger.error("注册发生异常，注册信息：{}, 异常原因：", JSONObject.toJSONString(userRegisterDTO), e);
+        } catch (DuplicateKeyException duplicateKeyException) {
+            logger.error("注册发生唯一键冲突：{}, 异常原因：", JSONObject.toJSONString(userRegisterDTO), duplicateKeyException);
             throw new BizException(BizErrorCode.LOGIN_ID_DUPLICATE);
+        } catch (Exception e) {
+            logger.error("注册发生未知异常，注册信息：{}, 异常原因：", JSONObject.toJSONString(userRegisterDTO), e);
+            throw new BizException(BizErrorCode.SYSTEM_ERROR);
         }
 
         return userId;
