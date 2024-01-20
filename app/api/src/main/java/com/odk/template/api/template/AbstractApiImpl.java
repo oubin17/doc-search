@@ -70,7 +70,7 @@ public class AbstractApiImpl extends AbstractApi {
             long executeTime = System.currentTimeMillis() - startTime;
             callBack.afterProcess(response);
             if (null != response) {
-                LOGGER.info(buildDigestLog(bizScene, response.isSuccess(), response.getErrorCode(), executeTime, ServiceContextHolder.getLoginId()));
+                LOGGER.info(buildDigestLog(bizScene, response.isSuccess(), response.getErrorCode(), executeTime, ServiceContextHolder.getUserId()));
             }
             clearContext();
         }

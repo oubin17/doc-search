@@ -8,6 +8,7 @@ import com.odk.odktemplatemanager.util.FileUtil;
 import com.odk.odktemplateservice.DocService;
 import com.odk.template.domain.domain.Doc;
 import com.odk.template.domain.impl.DocRepository;
+import com.odk.template.util.constext.ServiceContextHolder;
 import com.odk.template.util.dto.DocSaveDTO;
 import com.odk.template.util.dto.DocSearchDTO;
 import com.odk.template.util.enums.EsIndexEnum;
@@ -47,15 +48,18 @@ public class DocServiceImpl implements DocService {
     @Override
     public String saveDoc(DocSaveDTO docSaveDto) {
         String docId = UUID.randomUUID().toString();
+        String finalPath = "";
+
         try {
             //1.上传文件
-            FileUtil.saveFile(filePath, docId, docSaveDto.getDocName(), docSaveDto.getFileInputStream());
+            finalPath = FileUtil.saveFile(filePath, docId, docSaveDto.getDocName(), docSaveDto.getFileInputStream());
             //2.获取文件内容
             String docContents = FileUtil.getDocContents(filePath, docId, docSaveDto.getDocName());
             logger.info("文件内容 {}", docContents);
             if (StringUtils.isNotEmpty(docContents)) {
                 //3.内容写到ES
                 Map<String, Object> content = new HashMap<>();
+                content.put("userId", ServiceContextHolder.getUserId());
                 content.put("docId", docId);
                 content.put("docName", docSaveDto.getDocName());
                 content.put("docContents", docContents);
@@ -72,6 +76,8 @@ public class DocServiceImpl implements DocService {
         Doc doc = new Doc();
         doc.setDocId(docId);
         doc.setDocName(docSaveDto.getDocName());
+        doc.setUserId(ServiceContextHolder.getUserId());
+        doc.setDocPath(finalPath);
         docRepository.saveDoc(doc);
         return docId;
     }

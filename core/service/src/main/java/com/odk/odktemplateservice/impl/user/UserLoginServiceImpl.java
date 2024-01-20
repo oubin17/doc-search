@@ -6,7 +6,7 @@ import com.odk.odktemplateservice.UserLoginService;
 import com.odk.template.domain.domain.UserAccessToken;
 import com.odk.template.domain.domain.UserIdentification;
 import com.odk.template.domain.impl.UserRepository;
-import com.odk.template.util.constext.SessionHolder;
+import com.odk.template.util.constext.TokenHolder;
 import com.odk.template.util.dto.UserLoginDTO;
 import com.odk.template.util.vo.UserLoginVO;
 import org.apache.commons.lang3.StringUtils;
@@ -33,8 +33,8 @@ public class UserLoginServiceImpl implements UserLoginService {
         AssertUtil.isTrue(StringUtils.equals(userLoginDTO.getIdentifyValue(), identification.getIdentifyValue()), BizErrorCode.IDENTIFICATION_NOT_MATCH);
         UserLoginVO userLoginVO = new UserLoginVO();
         userLoginVO.setUserId(accessToken.getUserId());
-        SessionHolder.createSession(accessToken.getUserId());
-        userLoginVO.setToken(SessionHolder.createSession(accessToken.getUserId()));
+        TokenHolder.createToken(accessToken.getUserId());
+        userLoginVO.setToken(TokenHolder.createToken(accessToken.getUserId()));
         return userLoginVO;
     }
 

@@ -1,5 +1,6 @@
 package com.odk.template.util.constext;
 
+import com.odk.template.util.constants.ServiceConstants;
 import com.odk.template.util.enums.BizScene;
 
 /**
@@ -13,7 +14,9 @@ public class ServiceContextHolder {
 
     private static final ThreadLocal<BizScene> sceneCode = new ThreadLocal<>();
 
-    private static final ThreadLocal<String> userId = new ThreadLocal<>();
+    private static final ThreadLocal<ServiceContext> SERVICE_CONTEXT = new ThreadLocal<>();
+
+    private static final ThreadLocal<String> USER_ID_CONTEXT = new ThreadLocal<>();
 
 
     /**
@@ -25,14 +28,45 @@ public class ServiceContextHolder {
         ServiceContextHolder.sceneCode.set(bizScene);
     }
 
-    public static String getLoginId() {
-        return userId.get();
+    public static void setUserId(String userId) {
+        ServiceContext context = SERVICE_CONTEXT.get();
+        if (null == context) {
+            context = new ServiceContext();
+            SERVICE_CONTEXT.set(context);
+        }
+        context.setUserId(userId);
+    }
+
+    /**
+     * 获取用户ID
+     *
+     * @return
+     */
+    public static String getUserId() {
+        ServiceContext sc = SERVICE_CONTEXT.get();
+        if (null == sc) {
+            return null;
+        }
+        return sc.getUserId();
+    }
+
+    /**
+     * 获取租户ID
+     *
+     * @return
+     */
+    public static String getTntInstId() {
+        ServiceContext sc = SERVICE_CONTEXT.get();
+        if (null == sc) {
+            return ServiceConstants.TENANT_ID;
+        }
+        return sc.getTenantId();
     }
 
     public static void clear() {
         sceneCode.remove();
-        userId.remove();
-
+        SERVICE_CONTEXT.remove();
+        USER_ID_CONTEXT.remove();
     }
 
 }

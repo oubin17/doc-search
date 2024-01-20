@@ -34,6 +34,10 @@ public class DocumentController {
 
         return docApi.uploadDoc(docUploadRequest);
     }
+//
+//    public ServiceResponse<Boolean> deleteDocument() {
+//
+//    }
 
     @GetMapping("/search")
     public ServiceResponse<DocSearchResponse> searchDoc(@RequestParam("keyword") String keyword) {
