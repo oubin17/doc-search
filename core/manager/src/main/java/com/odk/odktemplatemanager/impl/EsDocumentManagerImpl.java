@@ -3,6 +3,7 @@ package com.odk.odktemplatemanager.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.odk.odktemplatemanager.EsDocumentManager;
 import com.odk.template.util.constext.ServiceContextHolder;
+import com.odk.template.util.dto.DocSearchDTO;
 import com.odk.template.util.enums.EsIndexEnum;
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.action.bulk.BulkRequest;
@@ -15,8 +16,11 @@ import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.elasticsearch.search.sort.SortBuilders;
+import org.elasticsearch.search.sort.SortOrder;
 import org.elasticsearch.xcontent.XContentType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,23 +75,36 @@ public class EsDocumentManagerImpl implements EsDocumentManager {
     }
 
     @Override
-    public SearchHit[] searchByField(String index, String field, String value) {
+    public SearchResponse searchDoc(String index, DocSearchDTO searchDto) {
         SearchRequest request = new SearchRequest(EsIndexEnum.DOC_SEARCH.getCode());
         //构建查询
         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
+
         BoolQueryBuilder boolQueryBuilder = new BoolQueryBuilder();
-        boolQueryBuilder.should(matchQuery(field, value));
         boolQueryBuilder.must(matchQuery("userId", ServiceContextHolder.getUserId()));
+
+        BoolQueryBuilder keywordBuilder = QueryBuilders.boolQuery();
+        keywordBuilder.should(matchQuery("docContents", searchDto.getKeyword()));
+        boolQueryBuilder.must(keywordBuilder);
         sourceBuilder.query(boolQueryBuilder);
+
+        //排序分页
+//        List<FieldSortBuilder> fieldSortList = new ArrayList<>();
+//        fieldSortList.add(SortBuilders.fieldSort("create_time").order(SortOrder.DESC));
+        sourceBuilder.sort(SortBuilders.fieldSort("createTime").order(SortOrder.DESC));
+        sourceBuilder.from(searchDto.getPageNo() * searchDto.getPageSize());
+        sourceBuilder.size(searchDto.getPageSize());
+
+        sourceBuilder.fetchSource(new String[]{"id", "docId", "docName", "createTime"}, new String[]{"docContents"});
+
         request.source(sourceBuilder);
         SearchResponse response = null;
         try {
-            response = restHighLevelClient.search(request, RequestOptions.DEFAULT);
+            return response = restHighLevelClient.search(request, RequestOptions.DEFAULT);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        long hitCount = response.getHits().getTotalHits().value;
-        return response.getHits().getHits();
+        return null;
 
     }
 

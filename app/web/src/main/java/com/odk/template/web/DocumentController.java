@@ -43,10 +43,8 @@ public class DocumentController {
         return docApi.deleteDoc(docDeleteRequest);
     }
 
-    @GetMapping("/search")
-    public ServiceResponse<DocSearchResponse> searchDoc(@RequestParam("keyword") String keyword) {
-        DocSearchRequest searchRequest = new DocSearchRequest();
-        searchRequest.setKeyword(keyword);
+    @PostMapping("/search")
+    public ServiceResponse<DocSearchResponse> searchDoc(@RequestBody DocSearchRequest searchRequest) {
         return docApi.searchDoc(searchRequest);
 
     }

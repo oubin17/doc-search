@@ -1,6 +1,7 @@
 package com.odk.odktemplatemanager;
 
-import org.elasticsearch.search.SearchHit;
+import com.odk.template.util.dto.DocSearchDTO;
+import org.elasticsearch.action.search.SearchResponse;
 
 import java.util.Map;
 
@@ -37,5 +38,5 @@ public interface EsDocumentManager {
      * @param value
      * @return
      */
-    SearchHit[] searchByField(String index, String field, String value);
+    SearchResponse searchDoc(String index, DocSearchDTO docSearchDTO);
 }

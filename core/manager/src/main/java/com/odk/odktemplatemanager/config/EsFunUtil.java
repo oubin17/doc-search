@@ -54,6 +54,17 @@ public class EsFunUtil {
                 .field("analyzer", "ik_max_word")
                 .endObject()
 
+                .startObject("createTime")
+                .field("type", "keyword")
+                .field("index", "true")
+                .endObject()
+
+                .startObject("updateTime")
+                .field("type", "keyword")
+                .field("index", "true")
+                .endObject()
+
+
                 .endObject()
                 .endObject();
 

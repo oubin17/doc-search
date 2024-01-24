@@ -1,6 +1,6 @@
 package com.odk.template.api.request;
 
-import com.odk.base.vo.request.BaseRequest;
+import com.odk.base.vo.request.PageRequest;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -13,10 +13,11 @@ import lombok.EqualsAndHashCode;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class DocSearchRequest extends BaseRequest {
+public class DocSearchRequest extends PageRequest {
 
     /**
      * 关键字
      */
     private String keyword;
+
 }

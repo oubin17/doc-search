@@ -14,13 +14,28 @@ import java.time.LocalDateTime;
 @Data
 public class DocVO {
 
+    /**
+     * 文档ID
+     */
     private String docId;
 
+    /**
+     * 文档名称
+     */
     private String docName;
 
+    /**
+     * 文档路径
+     */
     private String docPath;
 
+    /**
+     * 创建时间
+     */
     private LocalDateTime createTime;
 
+    /**
+     * 更新时间
+     */
     private LocalDateTime updateTime;
 }

@@ -1,11 +1,8 @@
 package com.odk.template.util.dto;
 
-import com.odk.base.dto.DTO;
-import com.odk.template.util.vo.DocVO;
+import com.odk.base.dto.PageDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import java.util.List;
 
 /**
  * DocSearchDto
@@ -16,9 +13,8 @@ import java.util.List;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class DocSearchDTO extends DTO {
+public class DocSearchDTO extends PageDTO {
 
     private String keyword;
 
-    private List<DocVO> docVOList;
 }

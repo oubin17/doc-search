@@ -55,7 +55,7 @@ public class DocRepository implements IDoc {
 
     @Override
     public List<Doc> queryByDocIds(List<String> docIds) {
-        String sql = "select * from doc_search.t_doc where doc_id in(:ids)";
+        String sql = "select * from doc_search.t_doc where doc_id in(:ids) order by create_time desc";
         Map<String, Object> paramMap = new HashMap<>();
         paramMap.put("ids", docIds);
         NamedParameterJdbcTemplate paramJdbcTemp = new NamedParameterJdbcTemplate(jdbcTemplate);
@@ -65,7 +65,7 @@ public class DocRepository implements IDoc {
             doc.setDocName(rs.getString("doc_name"));
             doc.setDocPath(rs.getString("doc_path"));
             doc.setCreateTime(LocalDateTimeUtil.convertTimestampToLocalDateTime(rs.getTimestamp("create_time").getTime()));
-            doc.setUpdateTime(LocalDateTimeUtil.convertTimestampToLocalDateTime(rs.getDate("update_time").getTime()));
+            doc.setUpdateTime(LocalDateTimeUtil.convertTimestampToLocalDateTime(rs.getTimestamp("update_time").getTime()));
             return doc;
         });
 

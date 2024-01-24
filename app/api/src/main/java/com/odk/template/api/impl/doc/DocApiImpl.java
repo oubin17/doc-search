@@ -3,6 +3,7 @@ package com.odk.template.api.impl.doc;
 import com.odk.base.exception.AssertUtil;
 import com.odk.base.exception.BizErrorCode;
 import com.odk.base.vo.request.BaseRequest;
+import com.odk.base.vo.response.PageResponse;
 import com.odk.base.vo.response.ServiceResponse;
 import com.odk.odktemplateservice.DocService;
 import com.odk.template.api.interfaces.DocApi;
@@ -15,10 +16,9 @@ import com.odk.template.util.dto.DocSaveDTO;
 import com.odk.template.util.dto.DocSearchDTO;
 import com.odk.template.util.enums.BizScene;
 import com.odk.template.util.vo.DocVO;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * DocApiImpl
@@ -35,7 +35,7 @@ public class DocApiImpl extends AbstractApiImpl implements DocApi {
     @Override
     public ServiceResponse<DocSearchResponse> searchDoc(DocSearchRequest docSearchRequest) {
 
-        return super.bizProcess(BizScene.DOC_SEARCH, docSearchRequest, DocSearchResponse.class, new ApiCallBack<List<DocVO>, DocSearchResponse>() {
+        return super.bizProcess(BizScene.DOC_SEARCH, docSearchRequest, DocSearchResponse.class, new ApiCallBack<PageResponse<DocVO>, DocSearchResponse>() {
 
             @Override
             protected void checkParams(BaseRequest request) {
@@ -48,22 +48,23 @@ public class DocApiImpl extends AbstractApiImpl implements DocApi {
             protected Object convert(BaseRequest request) {
                 DocSearchRequest searchRequest = (DocSearchRequest) request;
                 DocSearchDTO dto = new DocSearchDTO();
-                dto.setKeyword(searchRequest.getKeyword());
+                BeanUtils.copyProperties(searchRequest, dto);
                 return dto;
             }
 
             @Override
-            protected List<DocVO> doProcess(Object args) {
+            protected PageResponse<DocVO> doProcess(Object args) {
                 DocSearchDTO dto = (DocSearchDTO) args;
                 return docService.searchDoc(dto);
 
             }
 
             @Override
-            protected ServiceResponse<DocSearchResponse> assembleResult(List<DocVO> apiResult, Class<DocSearchResponse> resultClazz) throws Throwable {
+            protected ServiceResponse<DocSearchResponse> assembleResult(PageResponse<DocVO> apiResult, Class<DocSearchResponse> resultClazz) throws Throwable {
                 ServiceResponse<DocSearchResponse> docSearchResponseServiceResponse = super.assembleResult(apiResult, resultClazz);
                 DocSearchResponse docSearchResponse = new DocSearchResponse();
-                docSearchResponse.setResult(apiResult);
+                docSearchResponse.setResult(apiResult.getPageList());
+                docSearchResponse.setCount(apiResult.getCount());
                 docSearchResponseServiceResponse.setData(docSearchResponse);
                 return docSearchResponseServiceResponse;
 

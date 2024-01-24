@@ -16,6 +16,11 @@ import java.util.List;
 public class DocSearchResponse {
 
     /**
+     * 总数
+     */
+    private int count;
+
+    /**
      * VO
      *
      */

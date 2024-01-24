@@ -1,10 +1,9 @@
 package com.odk.odktemplateservice;
 
+import com.odk.base.vo.response.PageResponse;
 import com.odk.template.util.dto.DocSaveDTO;
 import com.odk.template.util.dto.DocSearchDTO;
 import com.odk.template.util.vo.DocVO;
-
-import java.util.List;
 
 /**
  * DocService
@@ -34,5 +33,5 @@ public interface DocService {
      * @param searchDto
      * @return
      */
-    List<DocVO> searchDoc(DocSearchDTO searchDto);
+    PageResponse<DocVO> searchDoc(DocSearchDTO searchDto);
 }

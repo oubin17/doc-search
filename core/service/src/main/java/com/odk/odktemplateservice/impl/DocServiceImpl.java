@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.odk.base.exception.AssertUtil;
 import com.odk.base.exception.BizErrorCode;
 import com.odk.base.exception.BizException;
+import com.odk.base.util.LocalDateTimeUtil;
+import com.odk.base.vo.response.PageResponse;
 import com.odk.odktemplatemanager.EsDocumentManager;
 import com.odk.odktemplatemanager.util.FileUtil;
 import com.odk.odktemplateservice.DocService;
@@ -15,6 +17,7 @@ import com.odk.template.util.dto.DocSearchDTO;
 import com.odk.template.util.enums.EsIndexEnum;
 import com.odk.template.util.vo.DocVO;
 import org.apache.commons.lang3.StringUtils;
+import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.search.SearchHit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +27,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.time.ZoneOffset;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -78,6 +82,9 @@ public class DocServiceImpl implements DocService {
                 content.put("docId", docId);
                 content.put("docName", docSaveDto.getDocName());
                 content.put("docContents", docContents);
+
+                content.put("createTime", LocalDateTimeUtil.getCurrentDateTime().toInstant(ZoneOffset.UTC).toEpochMilli());
+                content.put("updateTime", LocalDateTimeUtil.getCurrentDateTime().toInstant(ZoneOffset.UTC).toEpochMilli());
                 esDocumentManager.writeEs(EsIndexEnum.DOC_SEARCH.getCode(), content);
             }
         } catch (IOException e) {
@@ -98,22 +105,25 @@ public class DocServiceImpl implements DocService {
     }
 
     @Override
-    public List<DocVO> searchDoc(DocSearchDTO searchDto) {
-        SearchHit[] searchHits = esDocumentManager.searchByField(EsIndexEnum.DOC_SEARCH.getCode(), "docContents", searchDto.getKeyword());
-        if (searchHits == null || searchHits.length == 0) {
-            return new ArrayList<>();
+    public PageResponse<DocVO> searchDoc(DocSearchDTO searchDto) {
+        SearchResponse searchResponse = esDocumentManager.searchDoc(EsIndexEnum.DOC_SEARCH.getCode(), searchDto);
+        if (null == searchResponse || searchResponse.getHits().getHits().length == 0) {
+            return PageResponse.ofEmpty();
         }
+        int hitCount = (int) searchResponse.getHits().getTotalHits().value;
+        SearchHit[] searchHits = searchResponse.getHits().getHits();
 
         List<String> docIds = Arrays.stream(searchHits)
                 .map(SearchHit::getSourceAsString)
                 .map(str -> JSONObject.parseObject(str).getString("docId"))
                 .collect(Collectors.toList());
         List<Doc> docs = docRepository.queryByDocIds(docIds);
-        return docs.stream().map(doc -> {
+        List<DocVO> collect = docs.stream().map(doc -> {
             DocVO vo = new DocVO();
             BeanUtils.copyProperties(doc, vo);
             return vo;
         }).collect(Collectors.toList());
+        return PageResponse.of(collect, hitCount);
 
 
     }
