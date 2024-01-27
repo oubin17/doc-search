@@ -17,13 +17,14 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/user/login")
+@CrossOrigin
 public class UserLoginController {
 
     private UserLoginApi userLoginApi;
 
     @NoLogigCondition
     @PostMapping()
-    public ServiceResponse<UserLoginResponse> queryUserByUserId(@RequestBody UserLoginRequest loginRequest) {
+    public ServiceResponse<UserLoginResponse> userLogin(@RequestBody UserLoginRequest loginRequest) {
         return userLoginApi.userLogin(loginRequest);
     }
 
