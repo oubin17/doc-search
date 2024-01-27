@@ -18,4 +18,12 @@ public interface DirectoryService {
      * @return
      */
     String createDirectory(DirectoryCreateDTO createDTO);
+
+    /**
+     * 删除文件夹id
+     *
+     * @param dirId
+     * @return
+     */
+    boolean deleteDirectory(String dirId);
 }

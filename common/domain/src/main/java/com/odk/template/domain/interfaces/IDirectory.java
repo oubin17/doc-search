@@ -17,7 +17,7 @@ public interface IDirectory {
      * @param dicId
      * @return
      */
-    boolean checkExistence(String dicId);
+    boolean checkExistence(String dicId, String userId);
 
     /**
      * 创建目录
@@ -25,6 +25,14 @@ public interface IDirectory {
      * @param directory
      */
     void createDirectory(Directory directory);
+
+    /**
+     * 删除文件夹
+     *
+     * @param dicId
+     * @param userId
+     */
+    boolean deleteDirectory(String dicId, String userId);
 
 
 }

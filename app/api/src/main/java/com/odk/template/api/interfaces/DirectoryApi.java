@@ -19,4 +19,12 @@ public interface DirectoryApi {
      * @return
      */
      ServiceResponse<String> createDirectory(DirectoryCreateRequest directoryCreateRequest);
+
+    /**
+     * 删除目录
+     *
+     * @param dirId
+     * @return
+     */
+     boolean deleteDirectory(String dirId);
 }

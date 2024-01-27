@@ -32,7 +32,7 @@ public class DirectoryServiceImpl implements DirectoryService {
     @Override
     public String createDirectory(DirectoryCreateDTO createDTO) {
         if (StringUtils.isNotEmpty(createDTO.getParentId())) {
-            AssertUtil.isTrue(directoryRepository.checkExistence(createDTO.getParentId()), BizErrorCode.PARAM_ILLEGAL, "父节点不存在");
+            AssertUtil.isTrue(directoryRepository.checkExistence(createDTO.getParentId(), ServiceContextHolder.getUserId()), BizErrorCode.PARAM_ILLEGAL, "父节点不存在");
         }
         Directory directory = new Directory();
         String dirId = UUID.randomUUID().toString();
@@ -42,6 +42,15 @@ public class DirectoryServiceImpl implements DirectoryService {
         directory.setUserId(ServiceContextHolder.getUserId());
         directoryRepository.createDirectory(directory);
         return dirId;
+    }
+
+    @Override
+    public boolean deleteDirectory(String dirId) {
+        boolean existence = directoryRepository.checkExistence(dirId, ServiceContextHolder.getUserId());
+        if (existence) {
+            directoryRepository.deleteDirectory(dirId, ServiceContextHolder.getUserId());
+        }
+        return true;
     }
 
     @Autowired

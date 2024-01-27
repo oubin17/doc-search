@@ -60,6 +60,11 @@ public class DirectoryApiImpl extends AbstractApiImpl implements DirectoryApi {
         });
     }
 
+    @Override
+    public boolean deleteDirectory(String dirId) {
+        return directoryService.deleteDirectory(dirId);
+    }
+
     @Autowired
     public void setDirectoryService(DirectoryService directoryService) {
         this.directoryService = directoryService;

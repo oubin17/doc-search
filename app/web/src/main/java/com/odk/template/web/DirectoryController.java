@@ -1,13 +1,11 @@
 package com.odk.template.web;
 
+import com.odk.base.vo.response.EmptyVO;
 import com.odk.base.vo.response.ServiceResponse;
 import com.odk.template.api.interfaces.DirectoryApi;
 import com.odk.template.api.request.DirectoryCreateRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * DirectoryController
@@ -25,6 +23,12 @@ public class DirectoryController {
     @PostMapping("/create")
     public ServiceResponse<String> createDirectory(@RequestBody DirectoryCreateRequest directoryCreateRequest) {
         return directoryApi.createDirectory(directoryCreateRequest);
+    }
+
+    @DeleteMapping("/delete")
+    public ServiceResponse<EmptyVO> deleteDirectory(@RequestParam("dir_id") String dirId) {
+        directoryApi.deleteDirectory(dirId);
+        return ServiceResponse.valueOfSuccess();
     }
 
     @Autowired

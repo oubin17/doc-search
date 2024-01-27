@@ -28,9 +28,9 @@ public class DirectoryRepository implements IDirectory {
 
 
     @Override
-    public boolean checkExistence(String dicId) {
-        String sql = "select count(1) from doc_search.t_directory where dir_id = ?";
-        int count = jdbcTemplate.queryForObject(sql, Integer.class, dicId);
+    public boolean checkExistence(String dicId, String userId) {
+        String sql = "select count(1) from doc_search.t_directory where dir_id = ? and user_id = ?";
+        int count = jdbcTemplate.queryForObject(sql, Integer.class, dicId, userId);
         return count > 0;
     }
 
@@ -39,5 +39,13 @@ public class DirectoryRepository implements IDirectory {
         String sql = "insert into doc_search.t_directory(dir_id, parent_id, dir_name, user_id, create_time, update_time) values (?, ?, ?, ?, ?, ?)";
         this.jdbcTemplate.update(sql, directory.getDirId(), directory.getParentId(), directory.getDirName(), directory.getUserId(), LocalDateTimeUtil.getCurrentDateTime(), LocalDateTimeUtil.getCurrentDateTime());
 
+    }
+
+    @Override
+    public boolean deleteDirectory(String dicId, String userId) {
+        String sql = "delete from doc_search.t_directory where dir_id = ? and user_id = ?";
+        int update = this.jdbcTemplate.update(sql, dicId, userId);
+        logger.info("update={}", update);
+        return true;
     }
 }
