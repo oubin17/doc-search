@@ -28,7 +28,7 @@ public class TokenInterceptor implements AsyncHandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         Method method = ((HandlerMethod) handler).getMethod();
         //权限放开
-        if (method.getAnnotation(NoLogigCondition.class) != null) {
+        if (method.getAnnotation(NoLoginCondition.class) != null) {
             return true;
         }
 

@@ -1,7 +1,7 @@
 package com.odk.template.web;
 
 import com.odk.base.vo.response.ServiceResponse;
-import com.odk.template.api.interceptor.NoLogigCondition;
+import com.odk.template.api.interceptor.NoLoginCondition;
 import com.odk.template.api.interfaces.UserLoginApi;
 import com.odk.template.api.request.UserLoginRequest;
 import com.odk.template.api.response.UserLoginResponse;
@@ -22,7 +22,7 @@ public class UserLoginController {
 
     private UserLoginApi userLoginApi;
 
-    @NoLogigCondition
+    @NoLoginCondition
     @PostMapping()
     public ServiceResponse<UserLoginResponse> userLogin(@RequestBody UserLoginRequest loginRequest) {
         return userLoginApi.userLogin(loginRequest);

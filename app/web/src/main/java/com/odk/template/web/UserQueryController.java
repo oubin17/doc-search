@@ -1,7 +1,7 @@
 package com.odk.template.web;
 
 import com.odk.base.vo.response.ServiceResponse;
-import com.odk.template.api.interceptor.NoLogigCondition;
+import com.odk.template.api.interceptor.NoLoginCondition;
 import com.odk.template.api.interfaces.UserQueryApi;
 import com.odk.template.api.request.UserQueryRequest;
 import com.odk.template.domain.entity.UserEntity;
@@ -22,7 +22,7 @@ public class UserQueryController {
 
     private UserQueryApi userQueryApi;
 
-    @NoLogigCondition
+    @NoLoginCondition
     @GetMapping("/userid")
     public ServiceResponse<UserEntity> queryUserByUserId(@RequestParam("userId") String userId) {
         return userQueryApi.queryUserByUserId(userId);
