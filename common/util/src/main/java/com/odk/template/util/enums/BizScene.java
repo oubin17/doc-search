@@ -8,6 +8,11 @@ package com.odk.template.util.enums;
  * @author: oubin on 2023/11/11
  */
 public enum BizScene {
+
+    USER_REGISTER("USER_REGISTER", "用户注册"),
+
+    USER_LOGIN("USER_LOGIN", "用户登录"),
+
     HELLO_WORLD("HELLO_WORLD", "HELLO_WORLD"),
 
     DOC_UPLOAD("DOC_UPLOAD", "文件上传"),
@@ -16,9 +21,7 @@ public enum BizScene {
 
     DOC_SEARCH("DOC_SEARCH", "文件搜索"),
 
-    USER_REGISTER("USER_REGISTER", "用户注册"),
-
-    USER_LOGIN("USER_LOGIN", "用户登录")
+    DIRECTORY_CREATE("DIRECTORY_CREATE", "创建目录")
 
     ;
 
