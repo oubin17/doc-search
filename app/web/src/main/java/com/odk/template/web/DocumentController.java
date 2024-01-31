@@ -26,13 +26,13 @@ public class DocumentController {
     private DocApi docApi;
 
     @PostMapping("/upload")
-    public ServiceResponse<String> uploadDocument(MultipartFile file) throws IOException {
+    public ServiceResponse<String> uploadDocument(MultipartFile file, String dirId) throws IOException {
         DocUploadRequest docUploadRequest = new DocUploadRequest();
         docUploadRequest.setFileInputStream(file.getInputStream());
-        docUploadRequest.setName(file.getOriginalFilename());
         docUploadRequest.setContentType(file.getContentType());
         docUploadRequest.setFileSize(file.getSize() / 1024 + "K");
-
+        docUploadRequest.setName(file.getOriginalFilename());
+        docUploadRequest.setDirId(dirId);
         return docApi.uploadDoc(docUploadRequest);
     }
 

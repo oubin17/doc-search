@@ -20,6 +20,8 @@ public class DocUploadRequest extends BaseRequest {
     /**
      * 文件名称
      */
+    private String dirId;
+
     private String name;
 
     /**

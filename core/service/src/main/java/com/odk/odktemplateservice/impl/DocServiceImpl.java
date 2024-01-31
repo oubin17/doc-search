@@ -10,6 +10,7 @@ import com.odk.odktemplatemanager.EsDocumentManager;
 import com.odk.odktemplatemanager.util.FileUtil;
 import com.odk.odktemplateservice.DocService;
 import com.odk.template.domain.domain.Doc;
+import com.odk.template.domain.impl.DirectoryRepository;
 import com.odk.template.domain.impl.DocRepository;
 import com.odk.template.util.constext.ServiceContextHolder;
 import com.odk.template.util.dto.DocSaveDTO;
@@ -48,6 +49,8 @@ public class DocServiceImpl implements DocService {
 
     private DocRepository docRepository;
 
+    private DirectoryRepository directoryRepository;
+
     private EsDocumentManager esDocumentManager;
 
 
@@ -66,6 +69,10 @@ public class DocServiceImpl implements DocService {
 
     @Override
     public String saveDoc(DocSaveDTO docSaveDto) {
+        //校验上传路径是否合法
+        boolean existence = directoryRepository.checkExistence(docSaveDto.getDirId(), ServiceContextHolder.getUserId());
+        AssertUtil.isTrue(existence, BizErrorCode.PARAM_ILLEGAL, "文件夹不存在");
+
         String docId = UUID.randomUUID().toString();
         String finalPath;
 
@@ -98,6 +105,7 @@ public class DocServiceImpl implements DocService {
         Doc doc = new Doc();
         doc.setDocId(docId);
         doc.setDocName(docSaveDto.getDocName());
+        doc.setDirId(docSaveDto.getDirId());
         doc.setUserId(ServiceContextHolder.getUserId());
         doc.setDocPath(finalPath);
         docRepository.saveDoc(doc);
@@ -136,5 +144,10 @@ public class DocServiceImpl implements DocService {
     @Autowired
     public void setEsDocumentManager(EsDocumentManager esDocumentManager) {
         this.esDocumentManager = esDocumentManager;
+    }
+
+    @Autowired
+    public void setDirectoryRepository(DirectoryRepository directoryRepository) {
+        this.directoryRepository = directoryRepository;
     }
 }

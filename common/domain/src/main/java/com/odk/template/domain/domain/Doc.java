@@ -31,6 +31,11 @@ public class Doc extends BaseDomain {
     private String docPath;
 
     /**
+     * 文件夹id
+     */
+    private String dirId;
+
+    /**
      * 用户id
      */
     private String userId;

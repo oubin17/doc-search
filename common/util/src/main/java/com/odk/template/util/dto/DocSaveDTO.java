@@ -18,6 +18,11 @@ import java.io.InputStream;
 public class DocSaveDTO extends DTO {
 
     /**
+     * 文件保存路径
+     */
+    private String dirId;
+
+    /**
      * 文件名称
      */
     private String docName;

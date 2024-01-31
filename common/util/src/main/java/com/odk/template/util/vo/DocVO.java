@@ -30,6 +30,11 @@ public class DocVO {
     private String docPath;
 
     /**
+     * 文件夹id
+     */
+    private String dirId;
+
+    /**
      * 创建时间
      */
     private LocalDateTime createTime;

@@ -113,13 +113,14 @@ public class DocApiImpl extends AbstractApiImpl implements DocApi {
             protected void checkParams(BaseRequest request) {
                 super.checkParams(request);
                 DocUploadRequest uploadRequest = (DocUploadRequest) request;
-                AssertUtil.notNull(uploadRequest.getName(), BizErrorCode.PARAM_ILLEGAL, "request is null.");
+                AssertUtil.notNull(uploadRequest.getDirId(), BizErrorCode.PARAM_ILLEGAL, "请勿在根目录上传文件");
             }
 
             @Override
             protected Object convert(BaseRequest request) {
                 DocUploadRequest uploadRequest = (DocUploadRequest) request;
                 DocSaveDTO dto = new DocSaveDTO();
+                dto.setDirId(uploadRequest.getDirId());
                 dto.setDocName(uploadRequest.getName());
                 dto.setFileInputStream(uploadRequest.getFileInputStream());
                 return dto;

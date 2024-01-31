@@ -36,8 +36,8 @@ public class DocRepository implements IDoc {
 
     @Override
     public void saveDoc(Doc doc) {
-        String sql = "insert into doc_search.t_doc(doc_id, doc_name, doc_path, user_id, create_time, update_time) values (?, ?, ?, ?, ?, ?)";
-        this.jdbcTemplate.update(sql, doc.getDocId(), doc.getDocName(), doc.getDocPath(), doc.getUserId(), LocalDateTimeUtil.getCurrentDateTime(), new Date());
+        String sql = "insert into doc_search.t_doc(doc_id, doc_name, doc_path, dir_id, user_id, create_time, update_time) values (?, ?, ?, ?, ?, ?, ?)";
+        this.jdbcTemplate.update(sql, doc.getDocId(), doc.getDocName(), doc.getDocPath(), doc.getDirId(), doc.getUserId(), LocalDateTimeUtil.getCurrentDateTime(), new Date());
     }
 
     @Override
@@ -64,6 +64,7 @@ public class DocRepository implements IDoc {
             doc.setDocId(rs.getString("doc_id"));
             doc.setDocName(rs.getString("doc_name"));
             doc.setDocPath(rs.getString("doc_path"));
+            doc.setDirId(rs.getString("dir_id"));
             doc.setCreateTime(LocalDateTimeUtil.convertTimestampToLocalDateTime(rs.getTimestamp("create_time").getTime()));
             doc.setUpdateTime(LocalDateTimeUtil.convertTimestampToLocalDateTime(rs.getTimestamp("update_time").getTime()));
             return doc;
