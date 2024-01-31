@@ -10,9 +10,12 @@ import com.odk.template.api.request.DirectoryCreateRequest;
 import com.odk.template.api.template.AbstractApiImpl;
 import com.odk.template.util.dto.DirectoryCreateDTO;
 import com.odk.template.util.enums.BizScene;
+import com.odk.template.util.vo.DirectoryTreeVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * DirectoryApiImpl
@@ -63,6 +66,11 @@ public class DirectoryApiImpl extends AbstractApiImpl implements DirectoryApi {
     @Override
     public boolean deleteDirectory(String dirId) {
         return directoryService.deleteDirectory(dirId);
+    }
+
+    @Override
+    public ServiceResponse<List<DirectoryTreeVO>> directoryTree() {
+        return ServiceResponse.valueOfSuccess(directoryService.directoryTree());
     }
 
     @Autowired

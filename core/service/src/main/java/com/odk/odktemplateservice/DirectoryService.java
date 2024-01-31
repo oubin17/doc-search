@@ -1,6 +1,9 @@
 package com.odk.odktemplateservice;
 
 import com.odk.template.util.dto.DirectoryCreateDTO;
+import com.odk.template.util.vo.DirectoryTreeVO;
+
+import java.util.List;
 
 /**
  * DirectoryService
@@ -26,4 +29,11 @@ public interface DirectoryService {
      * @return
      */
     boolean deleteDirectory(String dirId);
+
+    /**
+     * 目录树
+     *
+     * @return
+     */
+    List<DirectoryTreeVO> directoryTree();
 }

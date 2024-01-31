@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * DirectoryRepository
  *
@@ -48,4 +50,46 @@ public class DirectoryRepository implements IDirectory {
         logger.info("update={}", update);
         return true;
     }
+
+    /**
+     *  (rs, rowNum) -> {
+     *             Directory directory = new Directory();
+     *             directory.setDirId(rs.getString("dir_id"));
+     *             directory.setParentId(rs.getString("parent_id"));
+     *             directory.setDirName(rs.getString("dir_name"));
+     *             directory.setUserId(rs.getString("user_id"));
+     *             directory.setCreateTime(LocalDateTimeUtil.convertTimestampToLocalDateTime(rs.getTimestamp("create_time").getTime()));
+     *             directory.setUpdateTime(LocalDateTimeUtil.convertTimestampToLocalDateTime(rs.getTimestamp("update_time").getTime()));
+     *             return directory;
+     *         }
+     *
+     * @param curDicId
+     * @param userId
+     * @return
+     */
+    @Override
+    public List<Directory> queryChildDir(String curDicId, String userId) {
+
+        StringBuilder builder = new StringBuilder();
+        builder.append("select * from doc_search.t_directory where parent_id");
+        if (curDicId == null) {
+            builder.append(" is null and user_id = '").append(userId).append("'");
+        } else {
+            builder.append(" = '").append(curDicId).append("' and user_id = '").append(userId).append("'");
+        }
+
+        return jdbcTemplate.query(builder.toString(), (rs, rowNum) -> {
+            Directory directory = new Directory();
+            directory.setDirId(rs.getString("dir_id"));
+            directory.setParentId(rs.getString("parent_id"));
+            directory.setDirName(rs.getString("dir_name"));
+            directory.setUserId(rs.getString("user_id"));
+            directory.setCreateTime(LocalDateTimeUtil.convertTimestampToLocalDateTime(rs.getTimestamp("create_time").getTime()));
+            directory.setUpdateTime(LocalDateTimeUtil.convertTimestampToLocalDateTime(rs.getTimestamp("update_time").getTime()));
+            return directory;
+        });
+
+
+    }
 }
+

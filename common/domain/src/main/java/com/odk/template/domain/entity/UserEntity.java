@@ -22,7 +22,7 @@ public class UserEntity {
     /**
      * 用户名称
      */
-    private String name;
+    private String userName;
 
     /**
      * 用户类型

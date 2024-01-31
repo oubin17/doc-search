@@ -22,8 +22,7 @@ public class UserQueryController {
 
     private UserQueryApi userQueryApi;
 
-    @NoLoginCondition
-    @GetMapping("/userid")
+    @GetMapping()
     public ServiceResponse<UserEntity> queryUserByUserId(@RequestParam("userId") String userId) {
         return userQueryApi.queryUserByUserId(userId);
     }

@@ -4,8 +4,11 @@ import com.odk.base.vo.response.EmptyVO;
 import com.odk.base.vo.response.ServiceResponse;
 import com.odk.template.api.interfaces.DirectoryApi;
 import com.odk.template.api.request.DirectoryCreateRequest;
+import com.odk.template.util.vo.DirectoryTreeVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * DirectoryController
@@ -25,10 +28,20 @@ public class DirectoryController {
         return directoryApi.createDirectory(directoryCreateRequest);
     }
 
-    @DeleteMapping("/delete")
-    public ServiceResponse<EmptyVO> deleteDirectory(@RequestParam("dir_id") String dirId) {
+    @DeleteMapping()
+    public ServiceResponse<EmptyVO> deleteDirectory(@RequestParam("dirId") String dirId) {
         directoryApi.deleteDirectory(dirId);
         return ServiceResponse.valueOfSuccess();
+    }
+
+    /**
+     * 目录树
+     *
+     * @return
+     */
+    @GetMapping("/tree")
+    public ServiceResponse<List<DirectoryTreeVO>> directoryTree() {
+        return directoryApi.directoryTree();
     }
 
     @Autowired

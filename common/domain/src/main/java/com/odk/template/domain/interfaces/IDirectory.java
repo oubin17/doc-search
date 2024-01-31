@@ -2,6 +2,8 @@ package com.odk.template.domain.interfaces;
 
 import com.odk.template.domain.domain.Directory;
 
+import java.util.List;
+
 /**
  * DirectoryRepository
  *
@@ -33,6 +35,16 @@ public interface IDirectory {
      * @param userId
      */
     boolean deleteDirectory(String dicId, String userId);
+
+
+    /**
+     * 查询当前节点子节点
+     *
+     * @param userId
+     * @param curDicId
+     * @return
+     */
+    List<Directory> queryChildDir(String curDicId, String userId);
 
 
 }
