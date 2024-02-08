@@ -44,6 +44,12 @@ public class DirectoryRepository implements IDirectory {
     }
 
     @Override
+    public int updateDirectory(String name, String dirId, String userId) {
+        String sql = "update doc_search.t_directory set dir_name = ? where dir_id = ? and user_id = ?";
+        return this.jdbcTemplate.update(sql, name, dirId, userId);
+    }
+
+    @Override
     public boolean deleteDirectory(String dicId, String userId) {
         String sql = "delete from doc_search.t_directory where dir_id = ? and user_id = ?";
         int update = this.jdbcTemplate.update(sql, dicId, userId);

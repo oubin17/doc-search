@@ -2,6 +2,7 @@ package com.odk.template.api.interfaces;
 
 import com.odk.base.vo.response.ServiceResponse;
 import com.odk.template.api.request.DirectoryCreateRequest;
+import com.odk.template.api.request.DirectoryUpdateRequest;
 import com.odk.template.util.vo.DirectoryTreeVO;
 
 import java.util.List;
@@ -22,6 +23,13 @@ public interface DirectoryApi {
      * @return
      */
      ServiceResponse<String> createDirectory(DirectoryCreateRequest directoryCreateRequest);
+
+    /**
+     * 更新目录名
+     * @param directoryUpdateRequest
+     * @return
+     */
+     ServiceResponse updateDirectory(DirectoryUpdateRequest directoryUpdateRequest);
 
     /**
      * 删除目录

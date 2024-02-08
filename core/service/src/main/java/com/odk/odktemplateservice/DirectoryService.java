@@ -1,6 +1,7 @@
 package com.odk.odktemplateservice;
 
 import com.odk.template.util.dto.DirectoryCreateDTO;
+import com.odk.template.util.dto.DirectoryUpdateDTO;
 import com.odk.template.util.vo.DirectoryTreeVO;
 
 import java.util.List;
@@ -21,6 +22,14 @@ public interface DirectoryService {
      * @return
      */
     String createDirectory(DirectoryCreateDTO createDTO);
+
+    /**
+     * 更新文件夹名称
+     *
+     * @param directoryUpdateDTO
+     * @return
+     */
+    Boolean updateDirectory(DirectoryUpdateDTO directoryUpdateDTO);
 
     /**
      * 删除文件夹id

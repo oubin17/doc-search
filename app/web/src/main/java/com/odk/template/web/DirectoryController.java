@@ -37,7 +37,7 @@ public class DirectoryController {
 
     @PostMapping("/update")
     public ServiceResponse updateDirName(@RequestBody DirectoryUpdateRequest directoryUpdateRequest) {
-
+        directoryApi.updateDirectory(directoryUpdateRequest);
         return ServiceResponse.valueOfSuccess();
     }
 

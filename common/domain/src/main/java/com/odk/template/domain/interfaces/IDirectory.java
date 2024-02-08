@@ -29,6 +29,16 @@ public interface IDirectory {
     void createDirectory(Directory directory);
 
     /**
+     * 更新文件夹名称
+     *
+     * @param name
+     * @param dirId
+     * @param userId
+     * @return
+     */
+    int updateDirectory(String name, String dirId,  String userId);
+
+    /**
      * 删除文件夹
      *
      * @param dicId

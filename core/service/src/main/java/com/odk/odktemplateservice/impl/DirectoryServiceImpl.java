@@ -10,6 +10,7 @@ import com.odk.template.domain.impl.DirectoryRepository;
 import com.odk.template.domain.impl.DocRepository;
 import com.odk.template.util.constext.ServiceContextHolder;
 import com.odk.template.util.dto.DirectoryCreateDTO;
+import com.odk.template.util.dto.DirectoryUpdateDTO;
 import com.odk.template.util.enums.DirTypeEnum;
 import com.odk.template.util.vo.DirectoryTreeVO;
 import org.apache.commons.lang3.StringUtils;
@@ -53,6 +54,13 @@ public class DirectoryServiceImpl implements DirectoryService {
         directory.setUserId(ServiceContextHolder.getUserId());
         directoryRepository.createDirectory(directory);
         return dirId;
+    }
+
+    @Override
+    public Boolean updateDirectory(DirectoryUpdateDTO directoryUpdateDTO) {
+        boolean existence = directoryRepository.checkExistence(directoryUpdateDTO.getDirId(), ServiceContextHolder.getUserId());
+        AssertUtil.isTrue(existence, BizErrorCode.PARAM_ILLEGAL, "文件夹不存在");
+        return directoryRepository.updateDirectory(directoryUpdateDTO.getDirName(), directoryUpdateDTO.getDirId(), ServiceContextHolder.getUserId()) > 0;
     }
 
     @Override

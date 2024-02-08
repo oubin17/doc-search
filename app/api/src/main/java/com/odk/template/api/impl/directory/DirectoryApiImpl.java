@@ -7,8 +7,10 @@ import com.odk.base.vo.response.ServiceResponse;
 import com.odk.odktemplateservice.DirectoryService;
 import com.odk.template.api.interfaces.DirectoryApi;
 import com.odk.template.api.request.DirectoryCreateRequest;
+import com.odk.template.api.request.DirectoryUpdateRequest;
 import com.odk.template.api.template.AbstractApiImpl;
 import com.odk.template.util.dto.DirectoryCreateDTO;
+import com.odk.template.util.dto.DirectoryUpdateDTO;
 import com.odk.template.util.enums.BizScene;
 import com.odk.template.util.vo.DirectoryTreeVO;
 import org.springframework.beans.BeanUtils;
@@ -59,6 +61,43 @@ public class DirectoryApiImpl extends AbstractApiImpl implements DirectoryApi {
                 ServiceResponse<String> response = super.assembleResult(apiResult, resultClazz);
                 response.setData(apiResult);
                 return response;
+            }
+        });
+    }
+
+    @Override
+    public ServiceResponse<Boolean> updateDirectory(DirectoryUpdateRequest directoryUpdateRequest) {
+        return super.bizProcess(BizScene.DIRECTORY_UPDATE, directoryUpdateRequest, Boolean.class, new ApiCallBack<Boolean, Boolean>() {
+
+            @Override
+            protected void checkParams(BaseRequest request) {
+                super.checkParams(request);
+                AssertUtil.notNull(directoryUpdateRequest.getDirId(), BizErrorCode.PARAM_ILLEGAL, "dirId is null.");
+                AssertUtil.notNull(directoryUpdateRequest.getDirName(), BizErrorCode.PARAM_ILLEGAL, "dirName is null.");
+            }
+
+            @Override
+            protected Object convert(BaseRequest request) {
+                DirectoryUpdateRequest updateRequest = (DirectoryUpdateRequest) request;
+                DirectoryUpdateDTO dto = new DirectoryUpdateDTO();
+                BeanUtils.copyProperties(updateRequest, dto);
+                return dto;
+            }
+
+            @Override
+            protected Boolean doProcess(Object args) {
+                DirectoryUpdateDTO dto = (DirectoryUpdateDTO) args;
+                return directoryService.updateDirectory(dto);
+            }
+
+            @Override
+            protected ServiceResponse<Boolean> assembleResult(Boolean apiResult, Class<Boolean> resultClazz) throws Throwable {
+                if (apiResult) {
+                    return ServiceResponse.valueOfSuccess();
+                } else  {
+                    return ServiceResponse.valueOfError(BizErrorCode.SYSTEM_ERROR);
+                }
+
             }
         });
     }

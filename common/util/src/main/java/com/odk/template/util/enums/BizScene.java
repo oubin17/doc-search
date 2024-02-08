@@ -21,7 +21,9 @@ public enum BizScene {
 
     DOC_SEARCH("DOC_SEARCH", "文件搜索"),
 
-    DIRECTORY_CREATE("DIRECTORY_CREATE", "创建目录")
+    DIRECTORY_CREATE("DIRECTORY_CREATE", "创建目录"),
+
+    DIRECTORY_UPDATE("DIRECTORY_UPDATE", "更新目录名"),
 
     ;
 
