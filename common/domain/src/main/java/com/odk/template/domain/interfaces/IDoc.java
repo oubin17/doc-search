@@ -36,4 +36,13 @@ public interface IDoc {
      * @return
      */
     List<Doc> queryByDocIds(List<String> docIds);
+
+    /**
+     * 查找文件夹下的文件
+     *
+     * @param dirId
+     * @param userId
+     * @return
+     */
+    List<Doc> queryDocByDirId(String dirId, String userId);
 }

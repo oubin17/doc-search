@@ -1,30 +1,38 @@
 package com.odk.template.util.enums;
 
+import com.odk.base.enums.IEnum;
+
 /**
- * EsIndexEnum
+ * DirTypeENum
  *
  * @description:
  * @version: 1.0
- * @author: oubin on 2024/1/17
+ * @author: oubin on 2024/2/4
  */
-public enum EsIndexEnum {
+public enum DirTypeEnum implements IEnum {
 
-    DOC_SEARCH("doc_search", "文件索引")
+    FOLDER("1", "文件夹"),
+
+    FILE("2", "文件")
 
     ;
+
+
     private final String code;
 
     private final String description;
 
-    EsIndexEnum(String code, String description) {
+    DirTypeEnum(String code, String description) {
         this.code = code;
         this.description = description;
     }
 
+    @Override
     public String getCode() {
         return code;
     }
 
+    @Override
     public String getDescription() {
         return description;
     }

@@ -71,4 +71,25 @@ public class DocRepository implements IDoc {
         });
 
     }
+
+    @Override
+    public List<Doc> queryDocByDirId(String dirId, String userId) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("select * from doc_search.t_doc where dir_id = '")
+                .append(dirId)
+                .append("' and user_id = '")
+                .append(userId)
+                .append("'  order by create_time desc");
+        return jdbcTemplate.query(builder.toString(), (rs, rowNum) -> {
+            Doc doc = new Doc();
+            doc.setDocId(rs.getString("doc_id"));
+            doc.setDocName(rs.getString("doc_name"));
+            doc.setDocPath(rs.getString("doc_path"));
+            doc.setDirId(rs.getString("dir_id"));
+            doc.setUserId(rs.getString("user_id"));
+            doc.setCreateTime(LocalDateTimeUtil.convertTimestampToLocalDateTime(rs.getTimestamp("create_time").getTime()));
+            doc.setUpdateTime(LocalDateTimeUtil.convertTimestampToLocalDateTime(rs.getTimestamp("update_time").getTime()));
+            return doc;
+        });
+    }
 }

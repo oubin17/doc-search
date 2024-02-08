@@ -4,6 +4,7 @@ import com.odk.base.vo.response.EmptyVO;
 import com.odk.base.vo.response.ServiceResponse;
 import com.odk.template.api.interfaces.DirectoryApi;
 import com.odk.template.api.request.DirectoryCreateRequest;
+import com.odk.template.api.request.DirectoryUpdateRequest;
 import com.odk.template.util.vo.DirectoryTreeVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +32,12 @@ public class DirectoryController {
     @DeleteMapping()
     public ServiceResponse<EmptyVO> deleteDirectory(@RequestParam("dirId") String dirId) {
         directoryApi.deleteDirectory(dirId);
+        return ServiceResponse.valueOfSuccess();
+    }
+
+    @PostMapping("/update")
+    public ServiceResponse updateDirName(@RequestBody DirectoryUpdateRequest directoryUpdateRequest) {
+
         return ServiceResponse.valueOfSuccess();
     }
 

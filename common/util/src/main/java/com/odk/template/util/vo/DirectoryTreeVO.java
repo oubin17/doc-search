@@ -17,7 +17,7 @@ public class DirectoryTreeVO {
     /**
      * 目录ID
      */
-    private String dirId;
+    private String id;
 
     /**
      * 父节点ID
@@ -28,7 +28,12 @@ public class DirectoryTreeVO {
     /**
      * 目录名称
      */
-    private String dirName;
+    private String label;
+
+    /**
+     * 目录类型
+     */
+    private String dirType;
 
     /**
      * 用户id

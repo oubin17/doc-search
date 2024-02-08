@@ -5,9 +5,12 @@ import com.odk.base.exception.AssertUtil;
 import com.odk.base.exception.BizErrorCode;
 import com.odk.odktemplateservice.DirectoryService;
 import com.odk.template.domain.domain.Directory;
+import com.odk.template.domain.domain.Doc;
 import com.odk.template.domain.impl.DirectoryRepository;
+import com.odk.template.domain.impl.DocRepository;
 import com.odk.template.util.constext.ServiceContextHolder;
 import com.odk.template.util.dto.DirectoryCreateDTO;
+import com.odk.template.util.enums.DirTypeEnum;
 import com.odk.template.util.vo.DirectoryTreeVO;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -34,6 +37,8 @@ public class DirectoryServiceImpl implements DirectoryService {
     private static final Logger logger = LoggerFactory.getLogger(DirectoryServiceImpl.class);
 
     private DirectoryRepository directoryRepository;
+
+    private DocRepository docRepository;
 
     @Override
     public String createDirectory(DirectoryCreateDTO createDTO) {
@@ -73,15 +78,38 @@ public class DirectoryServiceImpl implements DirectoryService {
     private List<DirectoryTreeVO> buildDirectoryTree(String curDir) {
 
         List<Directory> curDirList = directoryRepository.queryChildDir(curDir, ServiceContextHolder.getUserId());
-        List<DirectoryTreeVO> treeVOS = convertToTree(curDirList);
+        List<DirectoryTreeVO> treeVOS = convertDirectoryToTree(curDirList);
+        List<Doc> docs = docRepository.queryDocByDirId(curDir, ServiceContextHolder.getUserId());
+        treeVOS.addAll(convertDocToTree(docs, curDir));
         if (CollectionUtils.isEmpty(treeVOS)) {
             return Lists.newArrayList();
         }
         for (DirectoryTreeVO dir : treeVOS) {
-            List<DirectoryTreeVO> childDir = buildDirectoryTree(dir.getDirId());
-            dir.setChildDirs(childDir);
+            if (StringUtils.equals(DirTypeEnum.FOLDER.getCode(), dir.getDirType())) {
+                List<DirectoryTreeVO> childDir = buildDirectoryTree(dir.getId());
+                dir.setChildDirs(childDir);
+            }
         }
         return treeVOS;
+    }
+
+    /**
+     * 文件改成tree
+     *
+     * @param docList
+     * @return
+     */
+    private List<DirectoryTreeVO> convertDocToTree(List<Doc> docList, String curDir) {
+        return docList.stream().map(doc -> {
+            DirectoryTreeVO directoryTreeVO = new DirectoryTreeVO();
+            BeanUtils.copyProperties(doc, directoryTreeVO);
+            directoryTreeVO.setId(doc.getDocId());
+            directoryTreeVO.setParentId(curDir);
+            directoryTreeVO.setLabel(doc.getDocName());
+            directoryTreeVO.setDirType(DirTypeEnum.FILE.getCode());
+            return directoryTreeVO;
+        }).collect(Collectors.toList());
+
     }
 
 
@@ -91,15 +119,23 @@ public class DirectoryServiceImpl implements DirectoryService {
      * @param directoryList
      * @return
      */
-    private List<DirectoryTreeVO> convertToTree(List<Directory> directoryList) {
+    private List<DirectoryTreeVO> convertDirectoryToTree(List<Directory> directoryList) {
         return directoryList.stream().map(directory -> {
             DirectoryTreeVO directoryTreeVO = new DirectoryTreeVO();
             BeanUtils.copyProperties(directory, directoryTreeVO);
+            directoryTreeVO.setId(directory.getDirId());
+            directoryTreeVO.setLabel(directory.getDirName());
+            directoryTreeVO.setDirType(DirTypeEnum.FOLDER.getCode());
             return directoryTreeVO;
         }).collect(Collectors.toList());
     }
     @Autowired
     public void setDirectoryRepository(DirectoryRepository directoryRepository) {
         this.directoryRepository = directoryRepository;
+    }
+
+    @Autowired
+    public void setDocRepository(DocRepository docRepository) {
+        this.docRepository = docRepository;
     }
 }
