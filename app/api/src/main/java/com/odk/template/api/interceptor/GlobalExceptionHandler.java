@@ -1,5 +1,6 @@
 package com.odk.template.api.interceptor;
 
+import com.odk.base.exception.BizErrorCode;
 import com.odk.base.exception.BizException;
 import com.odk.base.vo.response.ServiceResponse;
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BizException.class)
     public ResponseEntity<ServiceResponse> handleValidationException(BizException e) {
         // 处理校验异常，可以根据需要返回适当的响应
-        return new ResponseEntity<>(ServiceResponse.valueOfError(e.getErrorCode()), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(ServiceResponse.valueOfError(e.getErrorCode(), e.getMessage()), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ServiceResponse> handleValidationException(RuntimeException e) {
+        // 处理校验异常，可以根据需要返回适当的响应
+        return new ResponseEntity<>(ServiceResponse.valueOfError(BizErrorCode.SYSTEM_ERROR, e.getMessage()), HttpStatus.BAD_REQUEST);
     }
 }

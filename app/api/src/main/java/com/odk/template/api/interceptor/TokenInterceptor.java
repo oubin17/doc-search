@@ -8,7 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.servlet.AsyncHandlerInterceptor;
+import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,13 +22,13 @@ import java.lang.reflect.Method;
  * @version: 1.0
  * @author: oubin on 2024/1/20
  */
-public class TokenInterceptor implements AsyncHandlerInterceptor {
+public class TokenInterceptor implements HandlerInterceptor {
     private static final Logger logger = LoggerFactory.getLogger(TokenInterceptor.class);
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         Method method = ((HandlerMethod) handler).getMethod();
         //权限放开
-        if (method.getAnnotation(NoLoginCondition.class) != null) {
+        if (method.getAnnotation(NoLoginCondition.class) != null || method.getName().equals("error")) {
             return true;
         }
 
@@ -48,6 +48,7 @@ public class TokenInterceptor implements AsyncHandlerInterceptor {
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
                            ModelAndView modelAndView) throws Exception {
+        logger.info("请求后置拦截");
         // 在请求被处理之后执行的操作，相当于拦截请求的后置处理
     }
 
@@ -55,7 +56,7 @@ public class TokenInterceptor implements AsyncHandlerInterceptor {
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
             throws Exception {
         // 在请求完成后执行的操作，包括在视图渲染之后执行（即在DispatcherServlet做了所有事情后）
-
+        logger.info("请求完成拦截");
         // 你可以在这里进行一些清理工作，例如释放资源等
     }
 
